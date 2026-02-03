@@ -1,0 +1,134 @@
+[
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/src/math/fft_clean.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/math/fft_clean.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/src/math/fft_clean.c",
+  "output": "CMakeFiles/zitaka_test.dir/src/math/fft_clean.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/src/utils/rng.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/utils/rng.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/src/utils/rng.c",
+  "output": "CMakeFiles/zitaka_test.dir/src/utils/rng.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/src/ntru/keygen_basis.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/ntru/keygen_basis.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/src/ntru/keygen_basis.c",
+  "output": "CMakeFiles/zitaka_test.dir/src/ntru/keygen_basis.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/src/ntru/keygen_ntru.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/ntru/keygen_ntru.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/src/ntru/keygen_ntru.c",
+  "output": "CMakeFiles/zitaka_test.dir/src/ntru/keygen_ntru.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/src/prematrix/prematrix.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/prematrix/prematrix.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/src/prematrix/prematrix.c",
+  "output": "CMakeFiles/zitaka_test.dir/src/prematrix/prematrix.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/src/sampler/migd.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/sampler/migd.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/src/sampler/migd.c",
+  "output": "CMakeFiles/zitaka_test.dir/src/sampler/migd.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/src/sampler/eigd.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/sampler/eigd.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/src/sampler/eigd.c",
+  "output": "CMakeFiles/zitaka_test.dir/src/sampler/eigd.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/src/math/cholesky.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/math/cholesky.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/src/math/cholesky.c",
+  "output": "CMakeFiles/zitaka_test.dir/src/math/cholesky.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/src/keygen.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/keygen.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/src/keygen.c",
+  "output": "CMakeFiles/zitaka_test.dir/src/keygen.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/src/math/ntt.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/math/ntt.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/src/math/ntt.c",
+  "output": "CMakeFiles/zitaka_test.dir/src/math/ntt.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/src/math/zint.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/math/zint.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/src/math/zint.c",
+  "output": "CMakeFiles/zitaka_test.dir/src/math/zint.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/src/math/poly.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/math/poly.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/src/math/poly.c",
+  "output": "CMakeFiles/zitaka_test.dir/src/math/poly.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/src/math/kiss_fft/kiss_fft.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft/kiss_fft.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft/kiss_fft.c",
+  "output": "CMakeFiles/zitaka_test.dir/src/math/kiss_fft/kiss_fft.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/endian.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/endian.c",
+  "output": "CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_finite_field.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_finite_field.c",
+  "output": "CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_hash.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_hash.c",
+  "output": "CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_ntt.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_ntt.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_ntt.c",
+  "output": "CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_ntt.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_trng.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_trng.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_trng.c",
+  "output": "CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_trng.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_vector.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_vector.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_vector.c",
+  "output": "CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_vector.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sha256.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/sha256.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/sha256.c",
+  "output": "CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sha256.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sm3.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/sm3.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/sm3.c",
+  "output": "CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sm3.c.o"
+},
+{
+  "directory": "/home/hangzhang/work/Zitaka/zitaka/build",
+  "command": "/usr/bin/cc  -I/home/hangzhang/work/Zitaka/zitaka/include -I/home/hangzhang/work/Zitaka/zitaka/src -I/home/hangzhang/work/Zitaka/zitaka/src/math -I/home/hangzhang/work/Zitaka/zitaka/src/ntru -I/home/hangzhang/work/Zitaka/zitaka/src/prematrix -I/home/hangzhang/work/Zitaka/zitaka/src/sampler -I/home/hangzhang/work/Zitaka/zitaka/src/utils -I/home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI -I/home/hangzhang/work/Zitaka/zitaka/src/math/kiss_fft -std=gnu11 -O2 -Wall -Wextra -Werror=implicit-function-declaration -o CMakeFiles/zitaka_test.dir/test/test_keygen.c.o -c /home/hangzhang/work/Zitaka/zitaka/test/test_keygen.c",
+  "file": "/home/hangzhang/work/Zitaka/zitaka/test/test_keygen.c",
+  "output": "CMakeFiles/zitaka_test.dir/test/test_keygen.c.o"
+}
+]

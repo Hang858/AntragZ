@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "../src/migd.h" 
+#include "migd.h" 
 
 
 static const int16_t POOL_OFFSETS_TEST[24] = {

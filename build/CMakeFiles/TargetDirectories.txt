@@ -1,0 +1,3 @@
+/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles/zitaka_test.dir
+/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles/edit_cache.dir
+/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles/rebuild_cache.dir

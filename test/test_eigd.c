@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "../src/eigd.h"
+#include "eigd.h"
 
 // 复用压缩表进行解压测试
 static const int16_t POOL_OFFSETS_TEST[24] = {
