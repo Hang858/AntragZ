@@ -53,6 +53,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/zitaka_test.dir/src/utils/hash.c.o.d"
   "CMakeFiles/zitaka_test.dir/src/utils/rng.c.o"
   "CMakeFiles/zitaka_test.dir/src/utils/rng.c.o.d"
+  "CMakeFiles/zitaka_test.dir/src/verify.c.o"
+  "CMakeFiles/zitaka_test.dir/src/verify.c.o.d"
   "CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o"
   "CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o.d"
   "zitaka_test"

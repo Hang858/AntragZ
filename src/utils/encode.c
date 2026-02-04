@@ -67,3 +67,72 @@ size_t compress_sig(void *out, size_t max_out_len, const int16_t *x) {
 
     return v;
 }
+
+size_t decompress_sig(int16_t *x, const uint8_t *in, size_t max_in_len) {
+    size_t n = ANTRAG_D;
+    uint32_t acc;
+    unsigned acc_len;
+    size_t u, v;
+
+    if (max_in_len < 1) return 0;
+    
+    // 1. 检查 Header (Falcon-512 = 0x39)
+    if (in[0] != (0x30 | 9)) return 0;
+    
+    acc = 0;
+    acc_len = 0;
+    v = 1; // 从第1个字节开始读
+
+    for (u = 0; u < n; u++) {
+        unsigned int sign;
+        unsigned int low;
+        uint32_t high;
+
+        // 读 1 bit 符号位
+        while (acc_len < 1) {
+            if (v >= max_in_len) return 0;
+            acc = (acc << 8) | in[v++];
+            acc_len += 8;
+        }
+        sign = (acc >> (acc_len - 1)) & 1;
+        acc_len --;
+
+        // 读 7 bits 低位
+        while (acc_len < 7) {
+            if (v >= max_in_len) return 0;
+            acc = (acc << 8) | in[v++];
+            acc_len += 8;
+        }
+        low = (acc >> (acc_len - 7)) & 127;
+        acc_len -= 7;
+
+        // 读高位一元编码 (0...01)
+        high = 0;
+        for (;;) {
+            while (acc_len < 1) {
+                if (v >= max_in_len) return 0;
+                acc = (acc << 8) | in[v++];
+                acc_len += 8;
+            }
+            if ((acc >> (acc_len - 1)) & 1) {
+                acc_len --;
+                break;
+            }
+            high ++;
+            acc_len --;
+            if (high > 31) return 0; // 防止恶意构造导致溢出
+        }
+
+        // 组合
+        int val = (int)low | ((int)high << 7);
+        if (sign) {
+            val = -val;
+        }
+        
+        // 范围检查
+        if (u == 0 && val == 0 && sign != 0) return 0; // Falcon 规范：-0 是非法的
+        x[u] = (int16_t)val;
+    }
+
+    return v;
+}

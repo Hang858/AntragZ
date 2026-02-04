@@ -48,6 +48,7 @@ set(SOURCES
     src/utils/encode.c
     src/sampler/zalcon_samp.c
     src/sign.c
+    src/verify.c
     ${PQC_SOFT_SOURCES}
 )
 

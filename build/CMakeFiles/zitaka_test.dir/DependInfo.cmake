@@ -35,6 +35,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/hangzhang/work/Zitaka/zitaka/src/utils/file_utils.c" "CMakeFiles/zitaka_test.dir/src/utils/file_utils.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/utils/file_utils.c.o.d"
   "/home/hangzhang/work/Zitaka/zitaka/src/utils/hash.c" "CMakeFiles/zitaka_test.dir/src/utils/hash.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/utils/hash.c.o.d"
   "/home/hangzhang/work/Zitaka/zitaka/src/utils/rng.c" "CMakeFiles/zitaka_test.dir/src/utils/rng.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/utils/rng.c.o.d"
+  "/home/hangzhang/work/Zitaka/zitaka/src/verify.c" "CMakeFiles/zitaka_test.dir/src/verify.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/verify.c.o.d"
   "/home/hangzhang/work/Zitaka/zitaka/test/test_sign_impl.c" "CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o" "gcc" "CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o.d"
   )
 

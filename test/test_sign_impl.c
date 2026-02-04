@@ -8,6 +8,7 @@
 // 声明 KeyGen 和 Sign
 int crypto_sign_keypair(PublicKey *pk, PrivateKey *sk);
 int crypto_sign(uint8_t *sig, size_t *sig_len, const uint8_t *m, size_t mlen, const PrivateKey *sk);
+int crypto_verify(const uint8_t *sig, size_t sig_len, const uint8_t *m, size_t mlen, const PublicKey *pk);
 
 int main() {
     printf("=== Zitaka Signature Test (In-Memory KeyGen) ===\n");
@@ -42,8 +43,14 @@ int main() {
         // 验证压缩头
         printf("Header: %02x (Expect 39)\n", sig[40]);
         
-        // 简单验证范数 (可选)
-        // verify_sig(sig, msg, pk); 
+        printf("Verifying signature...\n");
+        int v_ret = crypto_verify(sig, sig_len, (const uint8_t*)msg, mlen, &pk);
+
+        if (v_ret == 1) {
+            printf("[PASS] Verification successful! The signature is valid.\n");
+        } else {
+            printf("[FAIL] Verification failed! The signature is invalid.\n");
+        }
     } else {
         printf("[FAILED] Signature generation failed (ret=%d)\n", ret);
     }

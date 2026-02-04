@@ -777,6 +777,30 @@ src/utils/rng.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/utils/rng.c.s
 .PHONY : src/utils/rng.c.s
 
+src/verify.o: src/verify.c.o
+.PHONY : src/verify.o
+
+# target to build an object file
+src/verify.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/verify.c.o
+.PHONY : src/verify.c.o
+
+src/verify.i: src/verify.c.i
+.PHONY : src/verify.i
+
+# target to preprocess a source file
+src/verify.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/verify.c.i
+.PHONY : src/verify.c.i
+
+src/verify.s: src/verify.c.s
+.PHONY : src/verify.s
+
+# target to generate assembly for a file
+src/verify.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/verify.c.s
+.PHONY : src/verify.c.s
+
 test/test_sign_impl.o: test/test_sign_impl.c.o
 .PHONY : test/test_sign_impl.o
 
@@ -891,6 +915,9 @@ help:
 	@echo "... src/utils/rng.o"
 	@echo "... src/utils/rng.i"
 	@echo "... src/utils/rng.s"
+	@echo "... src/verify.o"
+	@echo "... src/verify.i"
+	@echo "... src/verify.s"
 	@echo "... test/test_sign_impl.o"
 	@echo "... test/test_sign_impl.i"
 	@echo "... test/test_sign_impl.s"

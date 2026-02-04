@@ -335,10 +335,24 @@ CMakeFiles/zitaka_test.dir/src/sign.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/zitaka_test.dir/src/sign.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/hangzhang/work/Zitaka/zitaka/src/sign.c -o CMakeFiles/zitaka_test.dir/src/sign.c.s
 
+CMakeFiles/zitaka_test.dir/src/verify.c.o: CMakeFiles/zitaka_test.dir/flags.make
+CMakeFiles/zitaka_test.dir/src/verify.c.o: /home/hangzhang/work/Zitaka/zitaka/src/verify.c
+CMakeFiles/zitaka_test.dir/src/verify.c.o: CMakeFiles/zitaka_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/zitaka_test.dir/src/verify.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/zitaka_test.dir/src/verify.c.o -MF CMakeFiles/zitaka_test.dir/src/verify.c.o.d -o CMakeFiles/zitaka_test.dir/src/verify.c.o -c /home/hangzhang/work/Zitaka/zitaka/src/verify.c
+
+CMakeFiles/zitaka_test.dir/src/verify.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/zitaka_test.dir/src/verify.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/hangzhang/work/Zitaka/zitaka/src/verify.c > CMakeFiles/zitaka_test.dir/src/verify.c.i
+
+CMakeFiles/zitaka_test.dir/src/verify.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/zitaka_test.dir/src/verify.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/hangzhang/work/Zitaka/zitaka/src/verify.c -o CMakeFiles/zitaka_test.dir/src/verify.c.s
+
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.o: CMakeFiles/zitaka_test.dir/flags.make
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.o: /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/endian.c
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.o: CMakeFiles/zitaka_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.o -MF CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.o.d -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/endian.c
 
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.i: cmake_force
@@ -352,7 +366,7 @@ CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.s: cmake_force
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.o: CMakeFiles/zitaka_test.dir/flags.make
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.o: /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_finite_field.c
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.o: CMakeFiles/zitaka_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.o -MF CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.o.d -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_finite_field.c
 
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.i: cmake_force
@@ -366,7 +380,7 @@ CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.s: cmake_force
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.o: CMakeFiles/zitaka_test.dir/flags.make
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.o: /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_hash.c
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.o: CMakeFiles/zitaka_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.o -MF CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.o.d -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_hash.c
 
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.i: cmake_force
@@ -380,7 +394,7 @@ CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.s: cmake_force
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_ntt.c.o: CMakeFiles/zitaka_test.dir/flags.make
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_ntt.c.o: /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_ntt.c
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_ntt.c.o: CMakeFiles/zitaka_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_ntt.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_ntt.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_ntt.c.o -MF CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_ntt.c.o.d -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_ntt.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_ntt.c
 
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_ntt.c.i: cmake_force
@@ -394,7 +408,7 @@ CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_ntt.c.s: cmake_force
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_trng.c.o: CMakeFiles/zitaka_test.dir/flags.make
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_trng.c.o: /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_trng.c
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_trng.c.o: CMakeFiles/zitaka_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_trng.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_trng.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_trng.c.o -MF CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_trng.c.o.d -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_trng.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_trng.c
 
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_trng.c.i: cmake_force
@@ -408,7 +422,7 @@ CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_trng.c.s: cmake_force
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_vector.c.o: CMakeFiles/zitaka_test.dir/flags.make
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_vector.c.o: /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_vector.c
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_vector.c.o: CMakeFiles/zitaka_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_vector.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_vector.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_vector.c.o -MF CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_vector.c.o.d -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_vector.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/op_vector.c
 
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_vector.c.i: cmake_force
@@ -422,7 +436,7 @@ CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_vector.c.s: cmake_force
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sha256.c.o: CMakeFiles/zitaka_test.dir/flags.make
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sha256.c.o: /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/sha256.c
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sha256.c.o: CMakeFiles/zitaka_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sha256.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sha256.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sha256.c.o -MF CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sha256.c.o.d -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sha256.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/sha256.c
 
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sha256.c.i: cmake_force
@@ -436,7 +450,7 @@ CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sha256.c.s: cmake_force
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sm3.c.o: CMakeFiles/zitaka_test.dir/flags.make
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sm3.c.o: /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/sm3.c
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sm3.c.o: CMakeFiles/zitaka_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sm3.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sm3.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sm3.c.o -MF CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sm3.c.o.d -o CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sm3.c.o -c /home/hangzhang/work/Zitaka/zitaka/PQCDevKitAPI/soft/sm3.c
 
 CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sm3.c.i: cmake_force
@@ -450,7 +464,7 @@ CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sm3.c.s: cmake_force
 CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o: CMakeFiles/zitaka_test.dir/flags.make
 CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o: /home/hangzhang/work/Zitaka/zitaka/test/test_sign_impl.c
 CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o: CMakeFiles/zitaka_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o -MF CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o.d -o CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o -c /home/hangzhang/work/Zitaka/zitaka/test/test_sign_impl.c
 
 CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.i: cmake_force
@@ -482,6 +496,7 @@ zitaka_test_OBJECTS = \
 "CMakeFiles/zitaka_test.dir/src/utils/encode.c.o" \
 "CMakeFiles/zitaka_test.dir/src/sampler/zalcon_samp.c.o" \
 "CMakeFiles/zitaka_test.dir/src/sign.c.o" \
+"CMakeFiles/zitaka_test.dir/src/verify.c.o" \
 "CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.o" \
 "CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.o" \
 "CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.o" \
@@ -514,6 +529,7 @@ zitaka_test: CMakeFiles/zitaka_test.dir/src/utils/hash.c.o
 zitaka_test: CMakeFiles/zitaka_test.dir/src/utils/encode.c.o
 zitaka_test: CMakeFiles/zitaka_test.dir/src/sampler/zalcon_samp.c.o
 zitaka_test: CMakeFiles/zitaka_test.dir/src/sign.c.o
+zitaka_test: CMakeFiles/zitaka_test.dir/src/verify.c.o
 zitaka_test: CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/endian.c.o
 zitaka_test: CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_finite_field.c.o
 zitaka_test: CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/op_hash.c.o
@@ -525,7 +541,7 @@ zitaka_test: CMakeFiles/zitaka_test.dir/PQCDevKitAPI/soft/sm3.c.o
 zitaka_test: CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o
 zitaka_test: CMakeFiles/zitaka_test.dir/build.make
 zitaka_test: CMakeFiles/zitaka_test.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Linking C executable zitaka_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/hangzhang/work/Zitaka/zitaka/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Linking C executable zitaka_test"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/zitaka_test.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -114,11 +114,12 @@ void OnlineSamp(const int64_t *u_hat,
 
     for (int i = 0; i < n; i++) {
         // out_z2[i] = SampleSW(c2_num[i], den);
-        out_z2[i] = (int64_t)llround((double)c2_num[i] / (double)den);
-        if (i == 0) {
-            printf("[DEBUG-Z2] i=0: center=%.2f, sampled=%ld, diff=%.2f\n", 
-                   (double)c2_num[i]/den, out_z2[i], (double)out_z2[i] - (double)c2_num[i]/den);
-        }
+        // out_z2[i] = (int64_t)llround((double)c2_num[i] / (double)den);
+        out_z2[i] = (int64_t)SampleArbitraryCenter128(c2_num[i], den);
+        // if (i == 0) {
+        //     printf("[DEBUG-Z2] i=0: center=%.2f, sampled=%ld, diff=%.2f\n", 
+        //            (double)c2_num[i]/den, out_z2[i], (double)out_z2[i] - (double)c2_num[i]/den);
+        // }
     }
 
     for (int i = 0; i < n; i++) {
@@ -135,10 +136,16 @@ void OnlineSamp(const int64_t *u_hat,
 
         int128_t c1_prime_val = c1_num[i] - (conv_sum * ANTRAG_Q);
         // out_z1[i] = SampleSW(c1_prime_val, den);
-        out_z1[i] = (int64_t)llround((double)c1_prime_val / (double)den);
-        if (i == 0) {
-            printf("[DEBUG-Z1] i=0: center_c1_prime=%.2f, sampled=%ld, diff=%.2f\n", 
-                   (double)c1_prime_val/den, out_z1[i], (double)out_z1[i] - (double)c1_prime_val/den);
+        // out_z1[i] = (int64_t)llround((double)c1_prime_val / (double)den);
+        out_z1[i] = (int64_t)SampleArbitraryCenter128(c1_prime_val, den);
+        // if (i == 0) {
+        //     printf("[DEBUG-Z1] i=0: center_c1_prime=%.2f, sampled=%ld, diff=%.2f\n", 
+        //            (double)c1_prime_val/den, out_z1[i], (double)out_z1[i] - (double)c1_prime_val/den);
+        // }
+        double total_diff_sq = 0;
+        for(int i=0; i<n; i++) {
+            double diff = (double)out_z1[i] - (double)c1_prime_val/den; // 这里需要逻辑上拿到当前的 c1_prime_val
+            total_diff_sq += diff * diff;
         }
     }
 }

@@ -240,7 +240,6 @@ int crypto_sign(uint8_t *sig, size_t *sig_len, const uint8_t *m, size_t mlen, co
         return 0; 
     }
 
-    *sig_len = 40 + comp_len;
     return 1; // 成功
 
 err:
