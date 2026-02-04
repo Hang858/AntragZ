@@ -39,6 +39,7 @@
 #define K_VAL 3
 #define L_VAL 9
 #define OUTPUT_ROWS 28 // 3*(9-1) + 4
+#define MIGD_ROWS 28 // 3*(9-1) + 4
 #define COMPRESSED_POOL_SIZE 1024 
 #define STACK_BUF_SIZE 512
 #define WORK_BUF_SIZE 1600
@@ -47,7 +48,7 @@
 
 typedef struct {
     double coeffs[ANTRAG_D];
-} poly;
+} poly;   //4KB
 
 typedef struct {
     int64_t *coeffs;
@@ -77,13 +78,13 @@ typedef struct {
 
     int64_t input_stack[STACK_BUF_SIZE];
     int64_t workspace[WORK_BUF_SIZE];
-} MemContext;
+} MemContext;  //19KB
 
 typedef struct {
     MemContext x_ctx;
     MemContext y_ctx;
     int64_t c_coeffs[K_VAL * N_MAX]; 
-} MIGD_Output;
+} MIGD_Output; //50KB
 
 typedef struct {
 
@@ -95,15 +96,19 @@ typedef struct {
     MIGD_Output migd_key;
 
     int valid; 
-} PreMatrix_Output;
+} PreMatrix_Output; //66KB
+
+typedef struct {
+    int64_t coeffs[ANTRAG_D]; 
+} poly_int64;
 
 typedef struct {
     int8_t f[ANTRAG_D];
     int8_t g[ANTRAG_D];
     int8_t F[ANTRAG_D];
     int8_t G[ANTRAG_D];
-    PreMatrix_Output mat; 
-} PrivateKey;
+    PreMatrix_Output mat;
+} PrivateKey;  //72KB
 
 typedef struct {
     int16_t h[ANTRAG_D];

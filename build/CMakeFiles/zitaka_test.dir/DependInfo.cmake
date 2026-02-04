@@ -28,8 +28,14 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/hangzhang/work/Zitaka/zitaka/src/prematrix/prematrix.c" "CMakeFiles/zitaka_test.dir/src/prematrix/prematrix.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/prematrix/prematrix.c.o.d"
   "/home/hangzhang/work/Zitaka/zitaka/src/sampler/eigd.c" "CMakeFiles/zitaka_test.dir/src/sampler/eigd.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/sampler/eigd.c.o.d"
   "/home/hangzhang/work/Zitaka/zitaka/src/sampler/migd.c" "CMakeFiles/zitaka_test.dir/src/sampler/migd.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/sampler/migd.c.o.d"
+  "/home/hangzhang/work/Zitaka/zitaka/src/sampler/sample.c" "CMakeFiles/zitaka_test.dir/src/sampler/sample.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/sampler/sample.c.o.d"
+  "/home/hangzhang/work/Zitaka/zitaka/src/sampler/zalcon_samp.c" "CMakeFiles/zitaka_test.dir/src/sampler/zalcon_samp.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/sampler/zalcon_samp.c.o.d"
+  "/home/hangzhang/work/Zitaka/zitaka/src/sign.c" "CMakeFiles/zitaka_test.dir/src/sign.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/sign.c.o.d"
+  "/home/hangzhang/work/Zitaka/zitaka/src/utils/encode.c" "CMakeFiles/zitaka_test.dir/src/utils/encode.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/utils/encode.c.o.d"
+  "/home/hangzhang/work/Zitaka/zitaka/src/utils/file_utils.c" "CMakeFiles/zitaka_test.dir/src/utils/file_utils.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/utils/file_utils.c.o.d"
+  "/home/hangzhang/work/Zitaka/zitaka/src/utils/hash.c" "CMakeFiles/zitaka_test.dir/src/utils/hash.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/utils/hash.c.o.d"
   "/home/hangzhang/work/Zitaka/zitaka/src/utils/rng.c" "CMakeFiles/zitaka_test.dir/src/utils/rng.c.o" "gcc" "CMakeFiles/zitaka_test.dir/src/utils/rng.c.o.d"
-  "/home/hangzhang/work/Zitaka/zitaka/test/test_keygen.c" "CMakeFiles/zitaka_test.dir/test/test_keygen.c.o" "gcc" "CMakeFiles/zitaka_test.dir/test/test_keygen.c.o.d"
+  "/home/hangzhang/work/Zitaka/zitaka/test/test_sign_impl.c" "CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o" "gcc" "CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

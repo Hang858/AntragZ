@@ -40,3 +40,27 @@ void sample_fpr(double *out, size_t n) {
 
     free(buf);
 }
+
+uint64_t get_secure_random_u64(void) {
+    if (!is_seeded) init_prng();
+    uint64_t v;
+    OP_hash_squeeze(OP_ALG_SHAKE256, rng_state, sizeof(rng_state), (uint8_t*)&v, sizeof(v));
+    return v;
+}
+
+uint64_t get_random_range(uint64_t max) {
+    if (max == 0) {
+        return 0; 
+    }
+    if (max == 1) {
+        return 0; 
+    }
+    uint64_t limit = UINT64_MAX - (UINT64_MAX % max);
+
+    uint64_t v;
+    do {
+        v = get_secure_random_u64();
+    } while (v >= limit);
+
+    return v % max;
+}

@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <math.h>
 #include "common.h"
@@ -901,7 +902,6 @@ static int
 solve_NTRU_intermediate(unsigned logn_top,
 	const int8_t *f, const int8_t *g, unsigned depth, uint32_t *tmp)
 {
-
 	unsigned logn;
 	size_t n, hn, slen, dlen, llen, rlen, FGlen, u;
 	uint32_t *Fd, *Gd, *Ft, *Gt, *ft, *gt, *t1;

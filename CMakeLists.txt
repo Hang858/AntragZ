@@ -36,16 +36,22 @@ set(SOURCES
     src/prematrix/prematrix.c
     src/sampler/migd.c
     src/sampler/eigd.c
+    src/sampler/sample.c
     src/math/cholesky.c
     src/keygen.c
     src/math/ntt.c
     src/math/zint.c
     src/math/poly.c
     src/math/kiss_fft/kiss_fft.c
+    src/utils/file_utils.c
+    src/utils/hash.c
+    src/utils/encode.c
+    src/sampler/zalcon_samp.c
+    src/sign.c
     ${PQC_SOFT_SOURCES}
 )
 
-list(APPEND SOURCES test/test_keygen.c)
+list(APPEND SOURCES test/test_sign_impl.c)
 
 # if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main.c")
 #     list(APPEND SOURCES main.c)

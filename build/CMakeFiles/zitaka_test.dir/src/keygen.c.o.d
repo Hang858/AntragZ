@@ -67,4 +67,5 @@ CMakeFiles/zitaka_test.dir/src/keygen.c.o: \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
  /home/hangzhang/work/Zitaka/zitaka/src/math/fft.h \
- /home/hangzhang/work/Zitaka/zitaka/src/math/poly.h
+ /home/hangzhang/work/Zitaka/zitaka/src/math/poly.h \
+ /home/hangzhang/work/Zitaka/zitaka/src/utils/file_utils.h

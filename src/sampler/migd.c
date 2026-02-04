@@ -3,6 +3,7 @@
 #include <string.h>
 #include "migd.h"
 #include "eigd.h"
+#include "poly.h"
 static int128_t calc_g_norm_sq_migd(int64_t b, int k) {
     int128_t sum = 0;
     int128_t bj = 1;
@@ -11,54 +12,6 @@ static int128_t calc_g_norm_sq_migd(int64_t b, int k) {
         if (i < k - 1) bj *= b;
     }
     return sum;
-}
-
-
-static void poly_adj(const int64_t *src, int64_t *dst, int n) {
-    dst[0] = src[0];
-    for (int i = 1; i < n; i++) {
-        dst[i] = -src[n - i];
-    }
-}
-
-
-static void poly_mul_add_accum(int64_t *target, const int64_t *a, const int64_t *b, int n) {
-
-    int128_t *tmp = (int128_t *)calloc(n, sizeof(int128_t));
-    if (!tmp) return;
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            int k = i + j;
-            int128_t val = (int128_t)a[i] * (int128_t)b[j];
-            
-            if (k < n) tmp[k] += val;
-            else       tmp[k - n] -= val;
-        }
-    }
-    
-    for(int i=0; i<n; i++) {
-        target[i] += (int64_t)tmp[i];
-    }
-    free(tmp);
-}
-
-static void poly_decompose_gadget(const int64_t *poly_in, int64_t b, int k, int n, int64_t *decomposed_polys) {
-    memset(decomposed_polys, 0, k * n * sizeof(int64_t));
-    
-    for (int i = 0; i < n; i++) {
-        int64_t val = poly_in[i];
-        
-        for (int j = 0; j < k; j++) {
-            int64_t r = val % b;
-            if (r < 0) r += b;
-            if (r >= b / 2) r -= b;
-            
-            decomposed_polys[j * n + i] = r;
-            
-            val = (val - r) / b;
-        }
-    }
 }
 
 
@@ -122,7 +75,7 @@ int Run_MIGD(
 
         int64_t *c_j = out_A->c_coeffs + (j * n);
         poly_adj(c_j, tmp_adj, n);
-        poly_mul_add_accum(Pi, tmp_adj, c_j, n);
+        poly_mul_acc_64(Pi, tmp_adj, c_j, n);
     }
     
     free(tmp_adj);

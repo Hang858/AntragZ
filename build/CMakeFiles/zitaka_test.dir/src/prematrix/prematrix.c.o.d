@@ -75,4 +75,5 @@ CMakeFiles/zitaka_test.dir/src/prematrix/prematrix.c.o: \
  /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
  /home/hangzhang/work/Zitaka/zitaka/include/common.h \
  /home/hangzhang/work/Zitaka/zitaka/src/math/fft.h \
- /home/hangzhang/work/Zitaka/zitaka/src/sampler/migd.h
+ /home/hangzhang/work/Zitaka/zitaka/src/sampler/migd.h \
+ /home/hangzhang/work/Zitaka/zitaka/src/math/poly.h

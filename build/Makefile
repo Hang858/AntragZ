@@ -609,6 +609,150 @@ src/sampler/migd.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/sampler/migd.c.s
 .PHONY : src/sampler/migd.c.s
 
+src/sampler/sample.o: src/sampler/sample.c.o
+.PHONY : src/sampler/sample.o
+
+# target to build an object file
+src/sampler/sample.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/sampler/sample.c.o
+.PHONY : src/sampler/sample.c.o
+
+src/sampler/sample.i: src/sampler/sample.c.i
+.PHONY : src/sampler/sample.i
+
+# target to preprocess a source file
+src/sampler/sample.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/sampler/sample.c.i
+.PHONY : src/sampler/sample.c.i
+
+src/sampler/sample.s: src/sampler/sample.c.s
+.PHONY : src/sampler/sample.s
+
+# target to generate assembly for a file
+src/sampler/sample.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/sampler/sample.c.s
+.PHONY : src/sampler/sample.c.s
+
+src/sampler/zalcon_samp.o: src/sampler/zalcon_samp.c.o
+.PHONY : src/sampler/zalcon_samp.o
+
+# target to build an object file
+src/sampler/zalcon_samp.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/sampler/zalcon_samp.c.o
+.PHONY : src/sampler/zalcon_samp.c.o
+
+src/sampler/zalcon_samp.i: src/sampler/zalcon_samp.c.i
+.PHONY : src/sampler/zalcon_samp.i
+
+# target to preprocess a source file
+src/sampler/zalcon_samp.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/sampler/zalcon_samp.c.i
+.PHONY : src/sampler/zalcon_samp.c.i
+
+src/sampler/zalcon_samp.s: src/sampler/zalcon_samp.c.s
+.PHONY : src/sampler/zalcon_samp.s
+
+# target to generate assembly for a file
+src/sampler/zalcon_samp.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/sampler/zalcon_samp.c.s
+.PHONY : src/sampler/zalcon_samp.c.s
+
+src/sign.o: src/sign.c.o
+.PHONY : src/sign.o
+
+# target to build an object file
+src/sign.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/sign.c.o
+.PHONY : src/sign.c.o
+
+src/sign.i: src/sign.c.i
+.PHONY : src/sign.i
+
+# target to preprocess a source file
+src/sign.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/sign.c.i
+.PHONY : src/sign.c.i
+
+src/sign.s: src/sign.c.s
+.PHONY : src/sign.s
+
+# target to generate assembly for a file
+src/sign.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/sign.c.s
+.PHONY : src/sign.c.s
+
+src/utils/encode.o: src/utils/encode.c.o
+.PHONY : src/utils/encode.o
+
+# target to build an object file
+src/utils/encode.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/utils/encode.c.o
+.PHONY : src/utils/encode.c.o
+
+src/utils/encode.i: src/utils/encode.c.i
+.PHONY : src/utils/encode.i
+
+# target to preprocess a source file
+src/utils/encode.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/utils/encode.c.i
+.PHONY : src/utils/encode.c.i
+
+src/utils/encode.s: src/utils/encode.c.s
+.PHONY : src/utils/encode.s
+
+# target to generate assembly for a file
+src/utils/encode.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/utils/encode.c.s
+.PHONY : src/utils/encode.c.s
+
+src/utils/file_utils.o: src/utils/file_utils.c.o
+.PHONY : src/utils/file_utils.o
+
+# target to build an object file
+src/utils/file_utils.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/utils/file_utils.c.o
+.PHONY : src/utils/file_utils.c.o
+
+src/utils/file_utils.i: src/utils/file_utils.c.i
+.PHONY : src/utils/file_utils.i
+
+# target to preprocess a source file
+src/utils/file_utils.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/utils/file_utils.c.i
+.PHONY : src/utils/file_utils.c.i
+
+src/utils/file_utils.s: src/utils/file_utils.c.s
+.PHONY : src/utils/file_utils.s
+
+# target to generate assembly for a file
+src/utils/file_utils.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/utils/file_utils.c.s
+.PHONY : src/utils/file_utils.c.s
+
+src/utils/hash.o: src/utils/hash.c.o
+.PHONY : src/utils/hash.o
+
+# target to build an object file
+src/utils/hash.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/utils/hash.c.o
+.PHONY : src/utils/hash.c.o
+
+src/utils/hash.i: src/utils/hash.c.i
+.PHONY : src/utils/hash.i
+
+# target to preprocess a source file
+src/utils/hash.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/utils/hash.c.i
+.PHONY : src/utils/hash.c.i
+
+src/utils/hash.s: src/utils/hash.c.s
+.PHONY : src/utils/hash.s
+
+# target to generate assembly for a file
+src/utils/hash.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/utils/hash.c.s
+.PHONY : src/utils/hash.c.s
+
 src/utils/rng.o: src/utils/rng.c.o
 .PHONY : src/utils/rng.o
 
@@ -633,29 +777,29 @@ src/utils/rng.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/src/utils/rng.c.s
 .PHONY : src/utils/rng.c.s
 
-test/test_keygen.o: test/test_keygen.c.o
-.PHONY : test/test_keygen.o
+test/test_sign_impl.o: test/test_sign_impl.c.o
+.PHONY : test/test_sign_impl.o
 
 # target to build an object file
-test/test_keygen.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/test/test_keygen.c.o
-.PHONY : test/test_keygen.c.o
+test/test_sign_impl.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.o
+.PHONY : test/test_sign_impl.c.o
 
-test/test_keygen.i: test/test_keygen.c.i
-.PHONY : test/test_keygen.i
+test/test_sign_impl.i: test/test_sign_impl.c.i
+.PHONY : test/test_sign_impl.i
 
 # target to preprocess a source file
-test/test_keygen.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/test/test_keygen.c.i
-.PHONY : test/test_keygen.c.i
+test/test_sign_impl.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.i
+.PHONY : test/test_sign_impl.c.i
 
-test/test_keygen.s: test/test_keygen.c.s
-.PHONY : test/test_keygen.s
+test/test_sign_impl.s: test/test_sign_impl.c.s
+.PHONY : test/test_sign_impl.s
 
 # target to generate assembly for a file
-test/test_keygen.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/test/test_keygen.c.s
-.PHONY : test/test_keygen.c.s
+test/test_sign_impl.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/zitaka_test.dir/build.make CMakeFiles/zitaka_test.dir/test/test_sign_impl.c.s
+.PHONY : test/test_sign_impl.c.s
 
 # Help Target
 help:
@@ -726,12 +870,30 @@ help:
 	@echo "... src/sampler/migd.o"
 	@echo "... src/sampler/migd.i"
 	@echo "... src/sampler/migd.s"
+	@echo "... src/sampler/sample.o"
+	@echo "... src/sampler/sample.i"
+	@echo "... src/sampler/sample.s"
+	@echo "... src/sampler/zalcon_samp.o"
+	@echo "... src/sampler/zalcon_samp.i"
+	@echo "... src/sampler/zalcon_samp.s"
+	@echo "... src/sign.o"
+	@echo "... src/sign.i"
+	@echo "... src/sign.s"
+	@echo "... src/utils/encode.o"
+	@echo "... src/utils/encode.i"
+	@echo "... src/utils/encode.s"
+	@echo "... src/utils/file_utils.o"
+	@echo "... src/utils/file_utils.i"
+	@echo "... src/utils/file_utils.s"
+	@echo "... src/utils/hash.o"
+	@echo "... src/utils/hash.i"
+	@echo "... src/utils/hash.s"
 	@echo "... src/utils/rng.o"
 	@echo "... src/utils/rng.i"
 	@echo "... src/utils/rng.s"
-	@echo "... test/test_keygen.o"
-	@echo "... test/test_keygen.i"
-	@echo "... test/test_keygen.s"
+	@echo "... test/test_sign_impl.o"
+	@echo "... test/test_sign_impl.i"
+	@echo "... test/test_sign_impl.s"
 .PHONY : help
 
 

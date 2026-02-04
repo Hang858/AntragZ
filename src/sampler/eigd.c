@@ -1,5 +1,6 @@
 #include <string.h>
 #include "eigd.h"
+#include "poly.h"
 
 // ==========================================
 // 1. 压缩映射表 (与您的 Test 代码保持一致)
@@ -53,7 +54,7 @@ static inline void matrix_set(MemContext *ctx, int row, int col, int64_t val) {
     }
 }
 
-static inline int64_t matrix_get(MemContext *ctx, int row, int col) {
+int64_t matrix_get(MemContext *ctx, int row, int col) {
     // Case A: Base Case
     if (row >= 24) return (col == 0) ? ctx->base_case[row - 24] : 0;
 
@@ -151,20 +152,7 @@ static void gadget_decompose(int64_t x, int64_t b, int k, int64_t *res) {
     }
 }
 
-static void poly_mul_add_accum(int64_t *target, const int64_t *a, const int64_t *b, int n) {
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            int k = i + j;
-            int64_t val = a[i] * b[j];
-            if (k < n) target[k] += val; else target[k - n] -= val;
-        }
-    }
-}
 
-static void poly_adjoint(const int64_t *src, int64_t *dst, int n) {
-    dst[0] = src[0];
-    for (int i = 1; i < n; i++) dst[i] = -src[n - i];
-}
 
 int EIGD_recursive_opt(const int64_t *input_f, int n, int current_l, int stride, 
                        int128_t d, int64_t b, int k, MemContext *ctx, int stack_offset) {
@@ -214,8 +202,8 @@ int EIGD_recursive_opt(const int64_t *input_f, int n, int current_l, int stride,
         for(int i=0; i<n; i++) {
             poly_tmp1[i] = matrix_get(ctx, row, i * stride);
         }
-        poly_adjoint(poly_tmp1, poly_tmp2, n);
-        poly_mul_add_accum(poly_accum, poly_tmp2, poly_tmp1, n);
+        poly_adj(poly_tmp1, poly_tmp2, n);
+        poly_mul_acc_64(poly_accum, poly_tmp2, poly_tmp1, n);
     }
     
     poly_accum[0] -= (int64_t)g_norm;

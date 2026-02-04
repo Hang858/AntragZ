@@ -4,8 +4,11 @@
 #include "common.h"
 #include "fft.h" 
 #include "poly.h"
+#include "file_utils.h"
 
 int crypto_sign_keypair(PublicKey *pk, PrivateKey *sk) {
+    memset(sk, 0, sizeof(PrivateKey));
+    memset(pk, 0, sizeof(PublicKey));
     if (!pk || !sk) return 0;
     
     printf("[Zitaka] KeyGen Step 1: Generating f, g...\n");
@@ -36,7 +39,7 @@ int crypto_sign_keypair(PublicKey *pk, PrivateKey *sk) {
 
     printf("[Zitaka] KeyGen Step 2: Solving NTRU Equation...\n");
 
-    uint32_t *tmp_ntru = malloc(70000 * sizeof(uint32_t)); 
+    uint32_t *tmp_ntru = malloc(9000 * sizeof(uint32_t)); 
     if (!tmp_ntru) return 0;
     
     if (!antrag_solve_ntru(sk->F, sk->G, sk->f, sk->g, ANTRAG_LOGD, tmp_ntru)) {
@@ -53,7 +56,7 @@ int crypto_sign_keypair(PublicKey *pk, PrivateKey *sk) {
         printf("[Error] PreMatrix computation failed (Cholesky/MIGD error).\n");
         return 0;
     }
-
+    
     printf("[Zitaka] KeyGen Step 4: Computing Public Key h...\n");
 
     // 4. 生成公钥 h = g * f^-1 mod q
@@ -75,6 +78,17 @@ int crypto_sign_keypair(PublicKey *pk, PrivateKey *sk) {
 
     free(f_inv);
     free(g_poly);
+
+    printf("[Zitaka] Saving keys to file...\n");
+    if (save_to_file("sk.bin", sk, sizeof(PrivateKey))) {
+        printf("[Info] Secret Key saved to 'sk.bin' (%zu bytes)\n", sizeof(PrivateKey));
+    }
+    if (save_to_file("pk.bin", pk, sizeof(PublicKey))) {
+        printf("[Info] Public Key saved to 'pk.bin' (%zu bytes)\n", sizeof(PublicKey));
+    }
+
+    printf("[Zitaka] KeyPair Generated Successfully.\n");
+    return 1;
 
     printf("[Zitaka] KeyPair Generated Successfully.\n");
     return 1;

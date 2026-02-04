@@ -6,58 +6,9 @@
 #include "fft.h"
 #include "common.h"
 #include "migd.h"
-// ---------------------------------------------------------
-// 内部辅助函数
-// ---------------------------------------------------------
-
+#include "poly.h"
 #define PREMATRIX_N 512
-static void poly_mul_accum_int128(int128_t *res, const int64_t *a, const int64_t *b, int n) {
-    for (int i = 0; i < n; i++) {
-        int128_t ai = a[i];
-        if (ai == 0) continue;
-        for (int j = 0; j < n; j++) {
-            int128_t val = ai * b[j];
-            int k = i + j;
-            if (k < n) res[k] += val;
-            else       res[k - n] -= val; 
-        }
-    }
-}
 
-static void poly_mul_adj_accum_int128(int128_t *res, const int64_t *a, const int64_t *b, int n) {
-    // 1. Term 0
-    int128_t b0 = b[0];
-    if (b0 != 0) {
-        for(int i=0; i<n; i++) res[i] += (int128_t)a[i] * b0;
-    }
-    // 2. Terms k
-    for (int k = 1; k < n; k++) {
-        int128_t val_adj = -b[n - k];
-        if (val_adj == 0) continue;
-        for (int i = 0; i < n; i++) {
-            int128_t prod = (int128_t)a[i] * val_adj;
-            int pos = i + k;
-            if (pos < n) res[pos] += prod;
-            else         res[pos - n] -= prod;
-        }
-    }
-}
-
-static void int128_to_poly_double(poly *out, const int128_t *in, int n) {
-    for (int i = 0; i < n; i++) {
-        out->coeffs[i] = (double)in[i]; 
-    }
-}
-
-static void poly_double_to_int64(int64_t *out, const poly *in, int n) {
-    for (int i = 0; i < n; i++) {
-        out[i] = (int64_t)round(in->coeffs[i]);
-    }
-}
-
-// ---------------------------------------------------------
-// 核心逻辑
-// ---------------------------------------------------------
 
 void run_cholesky(poly *a11, poly *a21, poly *a22,
                   const poly *p11, const poly *p21, const poly *p22);
@@ -131,11 +82,11 @@ int Run_PreMatrix(
     for(int i=0; i<n; i++) { f_int[i] = f[i]; g_int[i] = g[i]; }
 
     memset(tmp128, 0, n * sizeof(int128_t));
-    poly_mul_accum_int128(tmp128, out->u_hat_num, f_int, n);
+    poly_mul_acc_128(tmp128, out->u_hat_num, f_int, n);
     for(int i=0; i<n; i++) R1[i] = (int64_t)F[i] * p - (int64_t)tmp128[i];
     
     memset(tmp128, 0, n * sizeof(int128_t));
-    poly_mul_accum_int128(tmp128, out->u_hat_num, g_int, n);
+    poly_mul_acc_128(tmp128, out->u_hat_num, g_int, n);
     for(int i=0; i<n; i++) R2[i] = (int64_t)G[i] * p - (int64_t)tmp128[i];
 
     int128_t *S11 = calloc(n, sizeof(int128_t));
@@ -144,25 +95,26 @@ int Run_PreMatrix(
     int128_t p2 = (int128_t)p * p;
     
     memset(tmp128, 0, n * sizeof(int128_t));
-    poly_mul_adj_accum_int128(tmp128, f_int, f_int, n);
+    poly_mul_adj_acc_128(tmp128, f_int, f_int, n);
     for(int i=0; i<n; i++) S11[i] += tmp128[i] * p2;
-    poly_mul_adj_accum_int128(S11, R1, R1, n);
+    poly_mul_adj_acc_128(S11, R1, R1, n);
     
     memset(tmp128, 0, n * sizeof(int128_t));
-    poly_mul_adj_accum_int128(tmp128, g_int, g_int, n);
+    poly_mul_adj_acc_128(tmp128, g_int, g_int, n);
     for(int i=0; i<n; i++) S22[i] += tmp128[i] * p2;
-    poly_mul_adj_accum_int128(S22, R2, R2, n);
+    poly_mul_adj_acc_128(S22, R2, R2, n);
     
     memset(tmp128, 0, n * sizeof(int128_t));
-    poly_mul_adj_accum_int128(tmp128, f_int, g_int, n);
+    poly_mul_adj_acc_128(tmp128, f_int, g_int, n);
     for(int i=0; i<n; i++) S12[i] += tmp128[i] * p2;
-    poly_mul_adj_accum_int128(S12, R1, R2, n);
+    poly_mul_adj_acc_128(S12, R1, R2, n);
 
     free(R1); free(R2); free(f_int); free(g_int);
 
     // 计算 P
     int64_t s0 = 131;
-    int128_t B_sq = (int128_t)16900 * p2;
+    int64_t B_val = (int64_t)p * (s0 - 1);
+    int128_t B_sq = (int128_t)B_val * B_val; // 注意这里是 (p*(s0-1))^2
     
     for(int i=0; i<n; i++) {
         S11[i] = -S11[i];
@@ -200,6 +152,15 @@ int Run_PreMatrix(
     poly *poly_c22 = malloc(sizeof(poly));
 
     run_cholesky(poly_c11, poly_c21, poly_c22, poly_p11, poly_p21, poly_p22);
+
+    if (isnan(poly_c11->coeffs[0]) || isnan(poly_c22->coeffs[0])) {
+        printf("[ERROR] Cholesky produced NaN. Matrix not PD.\n");
+        // ... (释放内存)
+        free(poly_p11); free(poly_p21); free(poly_p22);
+        free(poly_c11); free(poly_c21); free(poly_c22);
+        free(S11); free(S22); free(P21); free(tmp128);
+        return 0;
+    }
     
     // Check for NaN
     if (isnan(poly_c11->coeffs[0])) {
@@ -220,16 +181,16 @@ int Run_PreMatrix(
 
     // Delta
     memset(tmp128, 0, n * sizeof(int128_t));
-    poly_mul_adj_accum_int128(tmp128, out->c11, out->c11, n);
+    poly_mul_adj_acc_128(tmp128, out->c11, out->c11, n);
     for(int i=0; i<n; i++) S11[i] = tmp128[i] - S11[i]; 
     
     memset(tmp128, 0, n * sizeof(int128_t));
-    poly_mul_adj_accum_int128(tmp128, out->c21, out->c21, n);
-    poly_mul_adj_accum_int128(tmp128, out->c22, out->c22, n);
+    poly_mul_adj_acc_128(tmp128, out->c21, out->c21, n);
+    poly_mul_adj_acc_128(tmp128, out->c22, out->c22, n);
     for(int i=0; i<n; i++) S22[i] = tmp128[i] - S22[i]; 
     
     memset(tmp128, 0, n * sizeof(int128_t));
-    poly_mul_adj_accum_int128(tmp128, out->c21, out->c11, n);
+    poly_mul_adj_acc_128(tmp128, out->c21, out->c11, n);
     for(int i=0; i<n; i++) P21[i] = tmp128[i] - P21[i]; 
     
     // MIGD Inputs
