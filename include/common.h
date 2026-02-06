@@ -80,28 +80,28 @@ typedef struct {
 
 typedef struct {
 
-    int16_t coeffs[COMPRESSED_POOL_SIZE];
+    int16_t coeffs[COMPRESSED_POOL_SIZE];  //2KB
     
-    int64_t base_case[4];
+    int64_t base_case[4];                  //32B
 
     int64_t input_stack[STACK_BUF_SIZE];
     int64_t workspace[WORK_BUF_SIZE];
 } MemContext;  //19KB
 
 typedef struct {
-    MemContext x_ctx;
-    MemContext y_ctx;
-    int64_t c_coeffs[K_VAL * N_MAX]; 
+    MemContext x_ctx;  //2KB
+    MemContext y_ctx;   //2KB
+    int64_t c_coeffs[K_VAL * N_MAX]; // 3KB
 } MIGD_Output; //50KB
 
 typedef struct {
 
-    int64_t u_hat_num[ANTRAG_D]; 
-    int64_t c11[ANTRAG_D];
-    int64_t c21[ANTRAG_D];
-    int64_t c22[ANTRAG_D];
+    int64_t u_hat_num[ANTRAG_D]; //2KB
+    int64_t c11[ANTRAG_D];  //2KB
+    int64_t c21[ANTRAG_D];  //2KB
+    int64_t c22[ANTRAG_D];  //2KB
 
-    MIGD_Output migd_key;
+    MIGD_Output migd_key;   //7KB
 
     int valid; 
 } PreMatrix_Output; //66KB

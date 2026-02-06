@@ -26,7 +26,6 @@ void poly_mul_mod(int16_t *res, const int16_t *a, const int16_t *b) {
             int k = i + j;
             int32_t val = (int32_t)a[i] * b[j];
             
-            // X^N = -1 mod (X^N + 1)
             if (k < ANTRAG_D) {
                 res[k] = mod_q(res[k] + val);
             } else {

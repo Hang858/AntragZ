@@ -43,6 +43,7 @@ set(SOURCES
     src/math/ntt.c
     src/math/zint.c
     src/math/poly.c
+    src/math/poly_ntt.c
     src/math/kiss_fft/kiss_fft.c
     src/utils/file_utils.c
     src/utils/hash.c
@@ -61,7 +62,3 @@ add_executable(zitaka_test ${SOURCES})
 target_link_libraries(zitaka_test 
     m
 )
-
-# 输出构建成功信息
-message(STATUS "FFTW3 Libraries: ${FFTW3_LIBRARIES}")
-message(STATUS "Hardware Include Path set to: ${CMAKE_CURRENT_SOURCE_DIR}/../hardware_inc")

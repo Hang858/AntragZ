@@ -12,15 +12,38 @@
 #include <math.h>
 
 #ifdef ZITAKA_DEBUG
-static int64_t get_max_abs_128(const int128_t *v, int n) {
-    int64_t max = 0;
+
+static void int128_to_str(int128_t n, char *buf) {
+    if (n == 0) { strcpy(buf, "0"); return; }
+    
+    char temp[50];
+    int i = 0;
+    int sign = 0;
+    if (n < 0) { sign = 1; n = -n; }
+    
+    // 提取每一位
+    while (n > 0) {
+        temp[i++] = (char)((n % 10) + '0');
+        n /= 10;
+    }
+    
+    int j = 0;
+    if (sign) buf[j++] = '-';
+    while (i > 0) {
+        buf[j++] = temp[--i];
+    }
+    buf[j] = '\0';
+}
+
+static int128_t get_real_max_abs_128(const int128_t *v, int n) {
+    int128_t max = 0;
     for(int i=0; i<n; i++) {
         int128_t val = v[i] < 0 ? -v[i] : v[i];
-        if(val > (int128_t)INT64_MAX) val = INT64_MAX; // 截断显示
-        if((int64_t)val > max) max = (int64_t)val;
+        if(val > max) max = val;
     }
     return max;
 }
+
 #endif
 
 static void get_eigd_poly_from_ctx(const MemContext *ctx, int row, int64_t *out_poly, int n) {
@@ -93,8 +116,16 @@ void OfflineSamp(const PreMatrix_Output *key, int64_t *out_p1, int64_t *out_p2) 
     }
 
 #ifdef ZITAKA_DEBUG
-    ZITAKA_LOG("[Sample] Offline Accumulators: Max(|v1|): %ld, Max(|v2|): %ld",
-               get_max_abs_128(v1, n), get_max_abs_128(v2, n));
+    {
+        char buf1[64], buf2[64];
+        int128_t max_v1 = get_real_max_abs_128(v1, n);
+        int128_t max_v2 = get_real_max_abs_128(v2, n);
+        
+        int128_to_str(max_v1, buf1);
+        int128_to_str(max_v2, buf2);
+        
+        ZITAKA_LOG("[Sample] Offline Accumulators: Max(|v1|): %s, Max(|v2|): %s", buf1, buf2);
+    }
 #endif
 
     uint64_t den = 1ULL << 63; 
