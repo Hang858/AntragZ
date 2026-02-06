@@ -24,14 +24,6 @@ static const int64_t LW_WEIGHTS[LW_NUM_SAMPLES] = {
 #define SW_LAYERS 3
 #define SW_NUM_SAMPLES 8
 
-static const int64_t SW_WEIGHTS[SW_NUM_SAMPLES] = {
-    56LL, 48LL, 42LL, 36LL, 28LL, 24LL, 21LL, 18LL
-};
-
-static const int64_t SW_COEFFS[SW_NUM_SAMPLES] = {
-    1LL, -1LL, -1LL, 1LL, -1LL, 1LL, 1LL, -1LL
-};
-
 int32_t BaseSample(uint8_t center_idx) {
     uint64_t r = get_secure_random_u64();
     int32_t flip_mask = 0;
@@ -44,7 +36,6 @@ int32_t BaseSample(uint8_t center_idx) {
     const uint64_t* cdf_row = CDT_TABLE[center_idx];
     int32_t z_index = 0;
 
-    // 常数时间遍历
     for (int i = 0; i < CDT_ROWS - 1; i++) {
         z_index += (r >= cdf_row[i]);
     }
@@ -63,36 +54,6 @@ int64_t SampleC1(int64_t c_in) {
     return c1 + z;
 }
 
-// int32_t SampleArbitraryCenter(int64_t num, uint64_t den) {
-
-//     int64_t sign = 1;
-//     uint64_t abs_num;
-    
-//     if (num < 0) {
-//         sign = -1;
-//         abs_num = (uint64_t)(-(num + 1)) + 1; 
-//     } else {
-//         abs_num = (uint64_t)num;
-//     }
-
-//     unsigned __int128 scaled_num = (unsigned __int128)abs_num << PRECISION_BITS;
-    
-//     uint64_t quo = (uint64_t)(scaled_num / den);
-//     uint64_t rem = (uint64_t)(scaled_num % den);
-
-//     uint64_t r_bern = get_random_range(den);
-    
-//     uint64_t c_rr = quo + (r_bern < rem);
-
-//     int64_t c_int = (int64_t)(c_rr >> PRECISION_BITS);
-//     int64_t c_frac = (int64_t)(c_rr & (PRECISION_SCALE - 1));
-
-//     for (int i = 0; i < CDT_LAYERS; i++) {
-//         c_frac = SampleC1(c_frac);
-//     }
-//     int32_t result = (int32_t)(c_int + c_frac);
-//     return sign * result;
-// }
 
 int32_t SampleArbitraryCenter128(int128_t num, uint64_t den) {
     int64_t sign = 1;
@@ -139,24 +100,5 @@ int64_t SampleLW(void) {
         int32_t s = BaseSample(0);
         z += (int64_t)s * LW_WEIGHTS[i];
     } 
-    return z;
-}
-
-int64_t SampleSW(int128_t c_num, uint64_t den) {
-    int64_t z = 0;
-    
-    for (int i = 0; i < SW_NUM_SAMPLES; i++) {
-
-        int128_t target_c;
-        if (SW_COEFFS[i] == 1) {
-            target_c = c_num;
-        } else {
-            target_c = -c_num;
-        }
-        
-        int64_t s = SampleArbitraryCenter128(target_c, den);
-        
-        z += s * SW_WEIGHTS[i];
-    }
     return z;
 }

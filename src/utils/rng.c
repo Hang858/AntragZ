@@ -1,4 +1,4 @@
-#include "operator_interface.h" // 直接包含外部接口
+#include "operator_interface.h"
 #include <stdlib.h>
 #include <string.h>
 

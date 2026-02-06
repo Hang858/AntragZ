@@ -1,60 +1,71 @@
-/* tests/test_sign_impl.c */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include "common.h"
 
-// 声明 KeyGen 和 Sign
 int crypto_sign_keypair(PublicKey *pk, PrivateKey *sk);
 int crypto_sign(uint8_t *sig, size_t *sig_len, const uint8_t *m, size_t mlen, const PrivateKey *sk);
 int crypto_verify(const uint8_t *sig, size_t sig_len, const uint8_t *m, size_t mlen, const PublicKey *pk);
 
-int main() {
-    printf("=== Zitaka Signature Test (In-Memory KeyGen) ===\n");
 
+int main(void) {
+    clock_t start;
+    printf("========================================\n");
+    printf("   Zitaka / ANTRAG_Z Signature Test     \n");
+    printf("========================================\n");
+
+    int ret;
     PublicKey pk;
     PrivateKey sk;
+    uint8_t msg[] = "Hello, Zitaka ANTRAG_Z Hardware Implementation!";
+    size_t mlen = strlen((char*)msg);
+    uint8_t sig[2048];
+    size_t sig_len = sizeof(sig);
 
-    // 1. 当场生成密钥 (避开文件读写导致的指针/数据丢失问题)
-    printf("Generating fresh KeyPair...\n");
-    clock_t start = clock();
-    if (!crypto_sign_keypair(&pk, &sk)) {
-        printf("[FATAL] KeyGen failed.\n");
+    // 1. Key Generation
+    printf("\n[1] Generating Keypair...\n");
+    ret = crypto_sign_keypair(&pk, &sk);
+
+    if (ret != 1) {
+        fprintf(stderr, "KeyGen Failed!\n");
         return 1;
     }
-    printf("KeyGen done in %.4fs.\n", (double)(clock()-start)/CLOCKS_PER_SEC);
+    printf("KeyGen Success. PK Hash (preview): %d\n", pk.h[0]);
 
-    // 2. 准备消息
-    const char *msg = "Hello Zitaka!";
-    size_t mlen = strlen(msg);
-    
-    // 3. 执行签名
-    size_t sig_len = 2048; 
-    uint8_t *sig = malloc(sig_len);
-    
-    printf("Signing...\n");
-    int ret = crypto_sign(sig, &sig_len, (const uint8_t*)msg, mlen, &sk);
+    // 2. Signing
+    printf("\n[2] Signing Message...\n");
+
+    sig_len = sizeof(sig); 
+    ret = crypto_sign(sig, &sig_len, msg, mlen, &sk);
+
+    if (ret != 1) {
+        fprintf(stderr, "Sign Failed (ret=%d)!\n", ret);
+        return 1;
+    }
+    printf("Sign Success. Signature Length: %zu bytes\n", sig_len);
+
+    // 3. Verification
+    printf("\n[3] Verifying Signature...\n");
+
+    ret = crypto_verify(sig, sig_len, msg, mlen, &pk);
 
     if (ret == 1) {
-        printf("[SUCCESS] Signature generated!\n");
-        printf("Signature Length: %lu bytes\n", sig_len);
-        
-        // 验证压缩头
-        printf("Header: %02x (Expect 39)\n", sig[40]);
-        
-        printf("Verifying signature...\n");
-        int v_ret = crypto_verify(sig, sig_len, (const uint8_t*)msg, mlen, &pk);
-
-        if (v_ret == 1) {
-            printf("[PASS] Verification successful! The signature is valid.\n");
-        } else {
-            printf("[FAIL] Verification failed! The signature is invalid.\n");
-        }
+        printf("\n>>> VERIFICATION SUCCESSFUL <<<\n");
     } else {
-        printf("[FAILED] Signature generation failed (ret=%d)\n", ret);
+        printf("\n>>> VERIFICATION FAILED <<<\n");
+        return 1;
     }
 
-    free(sig);
+    // 4. Corrupt Test (Optional)
+    printf("\n[4] Corruption Test...\n");
+    sig[50] ^= 0x01;
+    ret = crypto_verify(sig, sig_len, msg, mlen, &pk);
+    if (ret == 0) {
+        printf("Corruption correctly detected.\n");
+    } else {
+        printf("ERROR: Corrupted signature passed verification!\n");
+    }
+
     return 0;
 }

@@ -11,6 +11,18 @@
 #include <stdio.h>
 #include <math.h>
 
+#ifdef ZITAKA_DEBUG
+static int64_t get_max_abs_128(const int128_t *v, int n) {
+    int64_t max = 0;
+    for(int i=0; i<n; i++) {
+        int128_t val = v[i] < 0 ? -v[i] : v[i];
+        if(val > (int128_t)INT64_MAX) val = INT64_MAX; // 截断显示
+        if((int64_t)val > max) max = (int64_t)val;
+    }
+    return max;
+}
+#endif
+
 static void get_eigd_poly_from_ctx(const MemContext *ctx, int row, int64_t *out_poly, int n) {
     for(int i=0; i<n; i++) {
         out_poly[i] = matrix_get(ctx, row, i);
@@ -19,35 +31,30 @@ static void get_eigd_poly_from_ctx(const MemContext *ctx, int row, int64_t *out_
 
 void OfflineSamp(const PreMatrix_Output *key, int64_t *out_p1, int64_t *out_p2) {
     int n = ANTRAG_D;
-    
+
+    // v1, v2 是 128 位累加器，用于存储矩阵乘法结果 A * x
     int128_t *v1 = calloc(n, sizeof(int128_t));
     int128_t *v2 = calloc(n, sizeof(int128_t));
     
-    int64_t *temp_x = malloc(n * sizeof(int64_t));
+    int64_t *temp_x = malloc(n * sizeof(int64_t));     // 临时的高斯噪声向量 x
     int64_t *temp_poly = malloc(n * sizeof(int64_t));
     
     if (!v1 || !v2 || !temp_x || !temp_poly) goto cleanup;
 
-    // =================================================
-    // Block 1: Identity Matrix I (2 columns)
-    // =================================================
-    // Col 1: [1; 0] * x1 -> v1 += x1
-    for(int i=0; i<n; i++) v1[i] += SampleLW(); 
+    for(int i=0; i<n; i++) v1[i] += SampleLW(); // 采样 标准差为Lr0
     
-    // Col 2: [0; 1] * x2 -> v2 += x2
-    for(int i=0; i<n; i++) v2[i] += SampleLW();
+    for(int i=0; i<n; i++) v2[i] += SampleLW(); 
 
-    // =================================================
-    // Block 2: Cholesky Matrix C = [c11 0; c21 c22]
-    // =================================================
-    // Col 1: [c11; c21] * x
     for(int i=0; i<n; i++) temp_x[i] = SampleLW();
-    poly_mul_acc_128(v1, key->c11, temp_x, n); // v1 += c11 * x
-    poly_mul_acc_128(v2, key->c21, temp_x, n); // v2 += c21 * x
+    // v1 += C11 * x1
+    poly_mul_acc_128(v1, key->c11, temp_x, n);
+    // v2 += C21 * x1
+    poly_mul_acc_128(v2, key->c21, temp_x, n);
     
 
     for(int i=0; i<n; i++) temp_x[i] = SampleLW();
-    poly_mul_acc_128(v2, key->c22, temp_x, n); // v2 += c22 * x
+    // v2 += C22 * x2
+    poly_mul_acc_128(v2, key->c22, temp_x, n);
 
 
     int64_t b_pow = 1;
@@ -63,10 +70,7 @@ void OfflineSamp(const PreMatrix_Output *key, int64_t *out_p1, int64_t *out_p2) 
         const int64_t *c_ptr = key->migd_key.c_coeffs + j*n;
         poly_mul_adj_acc_128(v2, c_ptr, temp_x, n);
         
-        // --- L_j Col 2: [0; b^j] * x ---
         for(int i=0; i<n; i++) temp_x[i] = SampleLW();
-        
-        // v2 += b^j * x
         for(int i=0; i<n; i++) v2[i] += (int128_t)temp_x[i] * b_pow;
 
         b_pow *= b;
@@ -88,6 +92,10 @@ void OfflineSamp(const PreMatrix_Output *key, int64_t *out_p1, int64_t *out_p2) 
         poly_mul_acc_128(v2, temp_poly, temp_x, n);
     }
 
+#ifdef ZITAKA_DEBUG
+    ZITAKA_LOG("[Sample] Offline Accumulators: Max(|v1|): %ld, Max(|v2|): %ld",
+               get_max_abs_128(v1, n), get_max_abs_128(v2, n));
+#endif
 
     uint64_t den = 1ULL << 63; 
     
@@ -113,14 +121,11 @@ void OnlineSamp(const int64_t *u_hat,
     uint64_t den = p * ANTRAG_Q; 
 
     for (int i = 0; i < n; i++) {
-        // out_z2[i] = SampleSW(c2_num[i], den);
-        // out_z2[i] = (int64_t)llround((double)c2_num[i] / (double)den);
         out_z2[i] = (int64_t)SampleArbitraryCenter128(c2_num[i], den);
-        // if (i == 0) {
-        //     printf("[DEBUG-Z2] i=0: center=%.2f, sampled=%ld, diff=%.2f\n", 
-        //            (double)c2_num[i]/den, out_z2[i], (double)out_z2[i] - (double)c2_num[i]/den);
-        // }
     }
+#ifdef ZITAKA_DEBUG
+    ZITAKA_LOG("[Sample] Online z2 sampled. z2[0]: %ld", out_z2[0]);
+#endif
 
     for (int i = 0; i < n; i++) {
  
@@ -135,17 +140,17 @@ void OnlineSamp(const int64_t *u_hat,
         }
 
         int128_t c1_prime_val = c1_num[i] - (conv_sum * ANTRAG_Q);
-        // out_z1[i] = SampleSW(c1_prime_val, den);
-        // out_z1[i] = (int64_t)llround((double)c1_prime_val / (double)den);
         out_z1[i] = (int64_t)SampleArbitraryCenter128(c1_prime_val, den);
-        // if (i == 0) {
-        //     printf("[DEBUG-Z1] i=0: center_c1_prime=%.2f, sampled=%ld, diff=%.2f\n", 
-        //            (double)c1_prime_val/den, out_z1[i], (double)out_z1[i] - (double)c1_prime_val/den);
-        // }
-        double total_diff_sq = 0;
-        for(int i=0; i<n; i++) {
-            double diff = (double)out_z1[i] - (double)c1_prime_val/den; // 这里需要逻辑上拿到当前的 c1_prime_val
-            total_diff_sq += diff * diff;
+#ifdef ZITAKA_DEBUG
+        if (i == 0) {
+            double center = (double)c1_prime_val / (double)den;
+            double expected_part1 = (double)c1_num[i] / (double)den;
+            double expected_part2 = (double)(conv_sum * ANTRAG_Q) / (double)den;
+            ZITAKA_LOG("[OnlineSamp] i=0 Analysis:");
+            ZITAKA_LOG("  c1 term (c1_num/den) = %f", expected_part1);
+            ZITAKA_LOG("  u  term (conv/p)     = %f", expected_part2);
+            ZITAKA_LOG("  Final Center         = %f", center);
         }
+#endif
     }
 }

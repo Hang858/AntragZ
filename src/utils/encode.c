@@ -76,19 +76,17 @@ size_t decompress_sig(int16_t *x, const uint8_t *in, size_t max_in_len) {
 
     if (max_in_len < 1) return 0;
     
-    // 1. 检查 Header (Falcon-512 = 0x39)
     if (in[0] != (0x30 | 9)) return 0;
     
     acc = 0;
     acc_len = 0;
-    v = 1; // 从第1个字节开始读
+    v = 1;
 
     for (u = 0; u < n; u++) {
         unsigned int sign;
         unsigned int low;
         uint32_t high;
 
-        // 读 1 bit 符号位
         while (acc_len < 1) {
             if (v >= max_in_len) return 0;
             acc = (acc << 8) | in[v++];
@@ -97,7 +95,6 @@ size_t decompress_sig(int16_t *x, const uint8_t *in, size_t max_in_len) {
         sign = (acc >> (acc_len - 1)) & 1;
         acc_len --;
 
-        // 读 7 bits 低位
         while (acc_len < 7) {
             if (v >= max_in_len) return 0;
             acc = (acc << 8) | in[v++];
@@ -106,7 +103,6 @@ size_t decompress_sig(int16_t *x, const uint8_t *in, size_t max_in_len) {
         low = (acc >> (acc_len - 7)) & 127;
         acc_len -= 7;
 
-        // 读高位一元编码 (0...01)
         high = 0;
         for (;;) {
             while (acc_len < 1) {
@@ -120,19 +116,65 @@ size_t decompress_sig(int16_t *x, const uint8_t *in, size_t max_in_len) {
             }
             high ++;
             acc_len --;
-            if (high > 31) return 0; // 防止恶意构造导致溢出
+            if (high > 31) return 0;
         }
 
-        // 组合
         int val = (int)low | ((int)high << 7);
         if (sign) {
             val = -val;
         }
         
-        // 范围检查
-        if (u == 0 && val == 0 && sign != 0) return 0; // Falcon 规范：-0 是非法的
+        if (u == 0 && val == 0 && sign != 0) return 0;
         x[u] = (int16_t)val;
     }
 
     return v;
+}
+
+void encode_public_key(uint8_t *out, const int16_t *h) {
+
+    out[0] = (uint8_t)ANTRAG_LOGD; 
+    uint8_t *buf = out + 1;
+    
+    for (int i = 0; i < ANTRAG_D; i += 4) {
+        uint16_t t0 = h[i+0] & 0x3FFF;
+        uint16_t t1 = h[i+1] & 0x3FFF;
+        uint16_t t2 = h[i+2] & 0x3FFF;
+        uint16_t t3 = h[i+3] & 0x3FFF;
+
+        buf[0] = (uint8_t)(t0);
+        buf[1] = (uint8_t)(t0 >> 8) | (uint8_t)(t1 << 6);
+        buf[2] = (uint8_t)(t1 >> 2);
+        buf[3] = (uint8_t)(t1 >> 10) | (uint8_t)(t2 << 4);
+        buf[4] = (uint8_t)(t2 >> 4);
+        buf[5] = (uint8_t)(t2 >> 12) | (uint8_t)(t3 << 2);
+        buf[6] = (uint8_t)(t3 >> 6);
+        
+        buf += 7;
+    }
+}
+
+
+int decode_public_key(int16_t *h, const uint8_t *in, size_t len) {
+    if (len < 897) return 0;
+    
+    if (in[0] != ANTRAG_LOGD) return 0; 
+    
+    const uint8_t *buf = in + 1;
+    for (int i = 0; i < ANTRAG_D; i += 4) {
+        uint8_t b0 = buf[0];
+        uint8_t b1 = buf[1];
+        uint8_t b2 = buf[2];
+        uint8_t b3 = buf[3];
+        uint8_t b4 = buf[4];
+        uint8_t b5 = buf[5];
+        uint8_t b6 = buf[6];
+        buf += 7;
+
+        h[i+0] = (int16_t)(b0 | ((b1 & 0x3F) << 8));
+        h[i+1] = (int16_t)((b1 >> 6) | (b2 << 2) | ((b3 & 0x0F) << 10));
+        h[i+2] = (int16_t)((b3 >> 4) | (b4 << 4) | ((b5 & 0x03) << 12));
+        h[i+3] = (int16_t)((b5 >> 2) | (b6 << 6));
+    }
+    return 1;
 }

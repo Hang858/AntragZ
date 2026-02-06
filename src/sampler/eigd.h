@@ -11,4 +11,4 @@ int EIGD_recursive_opt(const int64_t *input_f, int n, int current_l, int stride,
 
 int64_t matrix_get(MemContext *ctx, int row, int col);
 
-#endif // EIGD_H
+#endif

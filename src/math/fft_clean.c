@@ -122,9 +122,6 @@ void invFFT(poly *p, int logn) {
     }
 }
 
-// =========================================================
-// 4. 其他数学函数 (保持原样)
-// =========================================================
 
 static void fpr_mul_complex(double *re, double *im, double a_re, double a_im, double b_re, double b_im) {
     *re = a_re * b_re - a_im * b_im;

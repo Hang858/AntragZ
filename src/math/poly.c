@@ -3,7 +3,7 @@
 #include <math.h>
 #include "poly.h"
 
-// 扩展欧几里得求整数逆元
+
 int16_t mod_inverse(int16_t a, int16_t m) {
     int t = 0, newt = 1;
     int r = m, newr = a;
@@ -13,13 +13,12 @@ int16_t mod_inverse(int16_t a, int16_t m) {
         temp = t; t = newt; newt = temp - quotient * newt;
         temp = r; r = newr; newr = temp - quotient * newr;
     }
-    if (r > 1) return 0; // 不可逆
+    if (r > 1) return 0;
     if (t < 0) t += m;
     return t;
 }
 
-// 多项式乘法 mod (x^n + 1, q)
-// 朴素 O(N^2) 实现
+
 void poly_mul_mod(int16_t *res, const int16_t *a, const int16_t *b) {
     memset(res, 0, ANTRAG_D * sizeof(int16_t));
     for (int i = 0; i < ANTRAG_D; i++) {
@@ -37,8 +36,7 @@ void poly_mul_mod(int16_t *res, const int16_t *a, const int16_t *b) {
     }
 }
 
-// 多项式求逆 mod (x^n + 1, q)
-// 使用扩展欧几里得算法
+
 int poly_inv_mod_q(int16_t *out, const int8_t *f_in) {
     int n = ANTRAG_D;
     int32_t q = ANTRAG_Q;
@@ -136,7 +134,7 @@ void poly_decompose_gadget(const int64_t *poly_in, int64_t b, int k, int n, int6
         int64_t val = poly_in[i];
         
         for (int j = 0; j < k; j++) {
-            // 带符号取模，映射到 [-b/2, b/2)
+
             int64_t r = val % b;
             if (r < 0) r += b;
             if (r >= b / 2) r -= b;
@@ -147,19 +145,12 @@ void poly_decompose_gadget(const int64_t *poly_in, int64_t b, int k, int n, int6
     }
 }
 
-// ==========================================
-// 乘法与累加
-// ==========================================
-
-// 对应原 migd.c 的 poly_mul_add_accum
 void poly_mul_acc_64(int64_t *target, const int64_t *a, const int64_t *b, int n) {
     
     int128_t *tmp = (int128_t *)calloc(n, sizeof(int128_t));
-    if (!tmp) return; // 错误处理
+    if (!tmp) return;
 
-    // 朴素卷积 O(n^2)
     for (int i = 0; i < n; i++) {
-        // 优化: 跳过 0 系数
         if (a[i] == 0) continue; 
 
         for (int j = 0; j < n; j++) {
@@ -172,7 +163,6 @@ void poly_mul_acc_64(int64_t *target, const int64_t *a, const int64_t *b, int n)
         }
     }
     
-    // 累加回目标数组 (截断为 64 位)
     for(int i = 0; i < n; i++) {
         target[i] += (int64_t)tmp[i];
     }
@@ -206,7 +196,6 @@ void poly_mul_int8_int64_to_128_acc(int128_t *res, const int8_t *a, const int64_
 }
 
 
-// 对应原 prematrix.c 的 poly_mul_accum_int128
 void poly_mul_acc_128(int128_t *res, const int64_t *a, const int64_t *b, int n) {
     for (int i = 0; i < n; i++) {
         int128_t ai = a[i];
@@ -222,8 +211,7 @@ void poly_mul_acc_128(int128_t *res, const int64_t *a, const int64_t *b, int n) 
     }
 }
 
-// 对应原 prematrix.c 的 poly_mul_adj_accum_int128
-// 计算 res += a * adj(b)
+
 void poly_mul_adj_acc_128(int128_t *res, const int64_t *a, const int64_t *b, int n) {
 
     int128_t b0 = b[0];
@@ -246,21 +234,18 @@ void poly_mul_adj_acc_128(int128_t *res, const int64_t *a, const int64_t *b, int
 }
 
 void poly_mul_sub_scaled_128(int128_t *res, const int64_t *a, const int64_t *b, int64_t scale, int n) {
-    // 简单的 O(N^2) 环乘法: res = res - (a * b * scale) mod (X^n + 1)
+
     for (int i = 0; i < n; i++) {
         int64_t ai = a[i];
         if (ai == 0) continue;
         
         for (int j = 0; j < n; j++) {
-            // 计算乘积项
+
             int128_t term = (int128_t)ai * b[j];
-            term *= scale; // 乘以 q 进行通分
-            
-            // X^i * X^j = X^{i+j}
+            term *= scale;
             if (i + j < n) {
                 res[i + j] -= term;
             } else {
-                // X^n = -1, 所以减去负数等于加上该项
                 res[i + j - n] += term;
             }
         }

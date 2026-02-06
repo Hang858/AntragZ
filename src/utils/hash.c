@@ -23,14 +23,10 @@ void hash_to_point(int16_t *x, const uint8_t *r, size_t r_len, const uint8_t *ms
         uint8_t buf[2];
         uint32_t w;
 
-        // 从 SHAKE256 挤出 2 字节
-        // shake256_inc_squeeze(buf, 2, &sc);
         OP_hash_squeeze(OP_ALG_SHAKE256, (void*)sc.ctx, 208, buf, 2);
 
-        // 大端序解析 [clean/common.c]
         w = ((unsigned)buf[0] << 8) | (unsigned)buf[1];
         
-        // 拒绝采样逻辑: keeping if w < 5*q
         if (w < 61445) {
             while (w >= ANTRAG_Q) {
                 w -= ANTRAG_Q;

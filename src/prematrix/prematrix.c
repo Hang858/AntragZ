@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <float.h>
 #include "prematrix.h"
 #include "fft.h"
 #include "common.h"
@@ -9,6 +10,17 @@
 #include "poly.h"
 #define PREMATRIX_N 512
 
+#ifdef ZITAKA_DEBUG
+static int64_t get_max_abs_128(const int128_t *v, int n) {
+    int64_t max = 0;
+    for(int i=0; i<n; i++) {
+        int128_t val = v[i] < 0 ? -v[i] : v[i];
+        if(val > (int128_t)INT64_MAX) val = INT64_MAX; // 截断显示
+        if((int64_t)val > max) max = (int64_t)val;
+    }
+    return max;
+}
+#endif
 
 void run_cholesky(poly *a11, poly *a21, poly *a22,
                   const poly *p11, const poly *p21, const poly *p22);
@@ -19,16 +31,15 @@ int Run_PreMatrix(
     PreMatrix_Output *out
 ) {
     int n = ANTRAG_D;
-    
-    // 安全检查：头文件不匹配会导致内存破坏
+    ZITAKA_LOG("[PreMatrix] Start. n=%d", n);
     if (n > PREMATRIX_N) {
-        printf("[ERROR] ANTRAG_D > PREMATRIX_N. Recompile with updated prematrix.h\n");
+        ZITAKA_LOG("[ERROR] ANTRAG_D > PREMATRIX_N. Recompile required.");
         return 0;
     }
 
     int64_t p = 1LL << 28; 
     
-    // FFT
+    // FFT 计算 u_hat
     poly *tp1 = malloc(sizeof(poly));
     poly *tp2 = malloc(sizeof(poly));
     poly *tp3 = malloc(sizeof(poly));
@@ -64,15 +75,25 @@ int Run_PreMatrix(
     }
     
     invFFT(tp1, ANTRAG_LOGD);
-    
+
+    // 存储 u_hat_num
     for(int i=0; i<n; i++) {
         out->u_hat_num[i] = (int64_t)round(tp1->coeffs[i] * p);
     }
+
+#ifdef ZITAKA_DEBUG
+    int64_t max_u = 0;
+    for(int i=0; i<n; i++) {
+        int64_t val = out->u_hat_num[i] < 0 ? -out->u_hat_num[i] : out->u_hat_num[i];
+        if(val > max_u) max_u = val;
+    }
+    ZITAKA_LOG("[PreMatrix] u_hat computed. Max coeff: %ld", max_u);
+#endif
     
     free(num); free(den); 
     free(tp1); free(tp2); free(tp3); free(tp4);
 
-    // 计算 Sigma
+    // 计算 Sigma (S11, S12, S22)
     int64_t *R1 = malloc(n * sizeof(int64_t));
     int64_t *R2 = malloc(n * sizeof(int64_t));
     int64_t *f_int = malloc(n * sizeof(int64_t));
@@ -93,7 +114,7 @@ int Run_PreMatrix(
     int128_t *S12 = calloc(n, sizeof(int128_t));
     int128_t *S22 = calloc(n, sizeof(int128_t));
     int128_t p2 = (int128_t)p * p;
-    
+    // 计算 Sigma = p^2 * B * B^T
     memset(tmp128, 0, n * sizeof(int128_t));
     poly_mul_adj_acc_128(tmp128, f_int, f_int, n);
     for(int i=0; i<n; i++) S11[i] += tmp128[i] * p2;
@@ -111,10 +132,10 @@ int Run_PreMatrix(
 
     free(R1); free(R2); free(f_int); free(g_int);
 
-    // 计算 P
+    // 构造 Cholesky 输入矩阵 P = B^2*I - Sigma
     int64_t s0 = 131;
     int64_t B_val = (int64_t)p * (s0 - 1);
-    int128_t B_sq = (int128_t)B_val * B_val; // 注意这里是 (p*(s0-1))^2
+    int128_t B_sq = (int128_t)B_val * B_val;
     
     for(int i=0; i<n; i++) {
         S11[i] = -S11[i];
@@ -125,20 +146,21 @@ int Run_PreMatrix(
         if (i == 0) S22[0] += B_sq;
     }
     
-    // P21 = -Sigma12* = -S12*
-    // Code check: S12* [k] is S12[n-k] (with sign flip logic). 
-    // Wait. S12[k] is coefficient of x^k.
-    // (S12)^*[k] = -S12[n-k]. (for k!=0)
-    // So P21[k] = -(-S12[n-k]) = S12[n-k].
-    // This is mathematically correct.
     int128_t *P21 = malloc(n * sizeof(int128_t));
     P21[0] = -S12[0];
     for(int i=1; i<n; i++) {
         P21[i] = S12[n - i]; 
     }
-    free(S12); 
+    free(S12);
 
-    // Cholesky
+#ifdef ZITAKA_DEBUG
+    ZITAKA_LOG("[PreMatrix] Cholesky input P prepared.");
+    ZITAKA_LOG("  Max(|P11|): %ld", get_max_abs_128(S11, n));
+    ZITAKA_LOG("  Max(|P21|): %ld", get_max_abs_128(P21, n));
+    ZITAKA_LOG("  Max(|P22|): %ld", get_max_abs_128(S22, n));
+#endif
+
+    // 执行 Cholesky 分解
     poly *poly_p11 = malloc(sizeof(poly));
     poly *poly_p21 = malloc(sizeof(poly));
     poly *poly_p22 = malloc(sizeof(poly));
@@ -154,18 +176,8 @@ int Run_PreMatrix(
     run_cholesky(poly_c11, poly_c21, poly_c22, poly_p11, poly_p21, poly_p22);
 
     if (isnan(poly_c11->coeffs[0]) || isnan(poly_c22->coeffs[0])) {
-        printf("[ERROR] Cholesky produced NaN. Matrix not PD.\n");
-        // ... (释放内存)
-        free(poly_p11); free(poly_p21); free(poly_p22);
-        free(poly_c11); free(poly_c21); free(poly_c22);
-        free(S11); free(S22); free(P21); free(tmp128);
-        return 0;
-    }
-    
-    // Check for NaN
-    if (isnan(poly_c11->coeffs[0])) {
-        printf("[ERROR] Cholesky produced NaN. Matrix not positive definite.\n");
-        // Clean up and fail
+        ZITAKA_LOG("[ERROR] Cholesky produced NaN. Matrix not Positive Definite.");
+
         free(poly_p11); free(poly_p21); free(poly_p22);
         free(poly_c11); free(poly_c21); free(poly_c22);
         free(S11); free(S22); free(P21); free(tmp128);
@@ -179,7 +191,7 @@ int Run_PreMatrix(
     free(poly_p11); free(poly_p21); free(poly_p22);
     free(poly_c11); free(poly_c21); free(poly_c22);
 
-    // Delta
+    // 计算 Delta = C*C^T - P
     memset(tmp128, 0, n * sizeof(int128_t));
     poly_mul_adj_acc_128(tmp128, out->c11, out->c11, n);
     for(int i=0; i<n; i++) S11[i] = tmp128[i] - S11[i]; 
@@ -193,30 +205,40 @@ int Run_PreMatrix(
     poly_mul_adj_acc_128(tmp128, out->c21, out->c11, n);
     for(int i=0; i<n; i++) P21[i] = tmp128[i] - P21[i]; 
     
-    // MIGD Inputs
     int64_t *d11_64 = malloc(n * sizeof(int64_t));
     int64_t *d12_64 = malloc(n * sizeof(int64_t)); 
     int64_t *d22_64 = malloc(n * sizeof(int64_t));
     
-    // d12 = Delta_12 = Delta_21^*
-    // P21 holds Delta_21
-    // Delta_21^*[k] is P21[0] or -P21[n-k]
     for(int i=0; i<n; i++) {
         d11_64[i] = (int64_t)S11[i];
         d22_64[i] = (int64_t)S22[i];
         if (i==0) d12_64[0] = (int64_t)P21[0];
         else      d12_64[i] = -(int64_t)P21[n-i];
     }
+#ifdef ZITAKA_DEBUG
+    ZITAKA_LOG("[PreMatrix] Delta (MIGD input) ready.");
+    ZITAKA_LOG("  Max(|D11|): %ld", get_max_abs_128(S11, n));
+    ZITAKA_LOG("  Max(|D12|): %ld", get_max_abs_128(P21, n));
+    ZITAKA_LOG("  Max(|D22|): %ld", get_max_abs_128(S22, n));
+#endif
     
     free(S11); free(S22); free(P21); free(tmp128);
 
+    // 计算 d_migd
     int128_t d_migd = (int128_t)2 * p * (p * (s0 - 1)) - 1;
-    int64_t b_param = 32768; 
+    int64_t b_param = 32768;
+    ZITAKA_LOG("[PreMatrix] Calling Run_MIGD with d_migd=%.1e", (double)d_migd);
 
     int res = Run_MIGD(d11_64, d12_64, d22_64, d_migd, b_param, &out->migd_key);
     out->valid = res;
 
     free(d11_64); free(d12_64); free(d22_64);
+
+    if(res) {
+        ZITAKA_LOG("[PreMatrix] SUCCESS.");
+    } else {
+        ZITAKA_LOG("[PreMatrix] FAILED at MIGD stage.");
+    }
     
     return res;
 }

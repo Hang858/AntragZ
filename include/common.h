@@ -3,7 +3,8 @@
 
 #include <stdint.h>
 #include <stddef.h>
-
+#define PK_BYTES 897
+typedef __int128_t int128_t;
 #define ANTRAG_D 512        // n
 #define ANTRAG_LOGD 9    // log2(n)
 #define ANTRAG_Q 12289      // q
@@ -13,6 +14,7 @@
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
+
 
 #define DEPTH_INT_FG   4
 #define fpr_add(a, b) ((a) + (b))
@@ -33,8 +35,6 @@
 #define fpr_ptwo63m1  9223372036854775807.0
 #define fpr_mtwo63m1  -9223372036854775807.0
 
-
-
 #define N_MAX 512
 #define K_VAL 3
 #define L_VAL 9
@@ -46,20 +46,29 @@
 
 #define MKN(logn) ((size_t)1 << (logn))
 
+#ifdef ZITAKA_DEBUG
+#include <stdio.h>
+    #define ZITAKA_LOG(fmt, ...) \
+        do { fprintf(stderr, "[DEBUG] %s:%d: " fmt "\n", __func__, __LINE__, ##__VA_ARGS__); } while(0)
+#else
+    #define ZITAKA_LOG(fmt, ...) do {} while(0)
+#endif
+
+
 typedef struct {
     double coeffs[ANTRAG_D];
-} poly;   //4KB
+} poly;
 
 typedef struct {
     int64_t *coeffs;
-    size_t n; // 维度 (2^k)
+    size_t n;
 } poly_int;
 
 typedef struct {
-    int8_t f[ANTRAG_D];  // 最终的整数 f
-    int8_t g[ANTRAG_D];  // 最终的整数 g
-    poly b10;            // 临时变量 / 频域 f
-    poly b11;            // 临时变量 / 频域 g
+    int8_t f[ANTRAG_D];
+    int8_t g[ANTRAG_D];
+    poly b10;
+    poly b11;
 } secret_key_fg;
 
 typedef struct {
@@ -68,7 +77,6 @@ typedef struct {
     uint32_t s;
 } small_prime;
 
-typedef __int128_t int128_t;
 
 typedef struct {
 
@@ -108,7 +116,7 @@ typedef struct {
     int8_t F[ANTRAG_D];
     int8_t G[ANTRAG_D];
     PreMatrix_Output mat;
-} PrivateKey;  //72KB
+} PrivateKey;  //68KB
 
 typedef struct {
     int16_t h[ANTRAG_D];

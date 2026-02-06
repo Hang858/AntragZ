@@ -7,10 +7,16 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_compile_options(-O2 -Wall -Wextra -Werror=implicit-function-declaration)
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-DZITAKA_DEBUG)
+    message(STATUS "Build Type: DEBUG (Verbose logging enabled)")
+else()
+    message(STATUS "Build Type: RELEASE (Logging disabled)")
+endif()
 
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/include           # 新增：建议存放 common.h, api.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src               # 兼容旧引用
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/src               
     ${CMAKE_CURRENT_SOURCE_DIR}/src/math
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ntru
     ${CMAKE_CURRENT_SOURCE_DIR}/src/prematrix
@@ -20,11 +26,6 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/src/math/kiss_fft
 )
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(FFTW3 REQUIRED fftw3)
-
-include_directories(${FFTW3_INCLUDE_DIRS})
-link_directories(${FFTW3_LIBRARY_DIRS})
 
 file(GLOB PQC_SOFT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/PQCDevKitAPI/soft/*.c)
 
@@ -54,17 +55,10 @@ set(SOURCES
 
 list(APPEND SOURCES test/test_sign_impl.c)
 
-# if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main.c")
-#     list(APPEND SOURCES main.c)
-# elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test/test_prematrix.c")
-#     list(APPEND SOURCES test/test_prematrix.c)
-# endif()
-
 add_executable(zitaka_test ${SOURCES})
 
 
 target_link_libraries(zitaka_test 
-    # ${FFTW3_LIBRARIES} 
     m
 )
 

@@ -2,9 +2,6 @@
 #include "eigd.h"
 #include "poly.h"
 
-// ==========================================
-// 1. 压缩映射表 (与您的 Test 代码保持一致)
-// ==========================================
 static const int16_t POOL_OFFSETS[24] = {
     0, 1, 2, 3, 5, 7, 9, 13, 17, 21, 29, 37, 
     45, 61, 77, 93, 125, 157, 189, 253, 317, 381, 509, 637
@@ -15,33 +12,23 @@ static const int16_t ROW_STRIDES[24] = {
     8, 8, 8, 4, 4, 4, 2, 2, 2, 1, 1, 1
 };
 
-// ==========================================
-// 2. 存取接口 (核心修复)
-// ==========================================
-
-// 辅助：获取当前行的最大逻辑索引限制
-// N_MAX=512. 
-// L=2 (stride 128): max logic index < 256/128 = 2. (Valid: 1)
-// L=9 (stride 1):   max logic index < 256/1 = 256. (Valid: 1..255)
 static inline int get_logic_limit(int stride) {
     return 256 / stride;
 }
 
 static inline void matrix_set(MemContext *ctx, int row, int col, int64_t val) {
-    // Case A: Base Case
+
     if (row >= 24) {
         if (col == 0) ctx->base_case[row - 24] = val;
         return;
     }
 
-    // Case B: Compressed Coeffs
     if (col == 0) return;
     int stride = ROW_STRIDES[row];
     if (col % stride != 0) return;
 
     int logic_idx = col / stride;
-    
-    // [FIX] 越界检查：防止写穿到下一行
+
     if (logic_idx >= get_logic_limit(stride)) return;
     
     if ((logic_idx & 1) == 0) return;
@@ -55,10 +42,9 @@ static inline void matrix_set(MemContext *ctx, int row, int col, int64_t val) {
 }
 
 int64_t matrix_get(MemContext *ctx, int row, int col) {
-    // Case A: Base Case
+
     if (row >= 24) return (col == 0) ? ctx->base_case[row - 24] : 0;
 
-    // Case B: Bias
     if (col == 0) {
         int j = row % K_VAL;
         if (j == 0) return 1;
@@ -73,8 +59,6 @@ int64_t matrix_get(MemContext *ctx, int row, int col) {
 
     int logic_idx = col / stride;
     
-    // [FIX] 越界检查：防止读到下一行的数据！
-    // 这是之前验证失败的根本原因
     if (logic_idx >= get_logic_limit(stride)) return 0;
 
     if ((logic_idx & 1) == 0) return 0;
@@ -85,9 +69,7 @@ int64_t matrix_get(MemContext *ctx, int row, int col) {
     return (int64_t)ctx->coeffs[pool_idx];
 }
 
-// ==========================================
-// 3. 数学辅助函数
-// ==========================================
+// 求解四平方数
 static int128_t sqrt_128(int128_t n) {
     if (n < 0) return -1;
     if (n == 0) return 0;
@@ -157,13 +139,20 @@ static void gadget_decompose(int64_t x, int64_t b, int k, int64_t *res) {
 int EIGD_recursive_opt(const int64_t *input_f, int n, int current_l, int stride, 
                        int128_t d, int64_t b, int k, MemContext *ctx, int stack_offset) {
     // Base Case
+    // ZITAKA_LOG("EIGD Recurse: L=%d, n=%d, d=%.1e", current_l, n, (double)d);
     if (n == 2) {
         int128_t target = d - (int128_t)input_f[0];
         if (target < 0) return 0;
         
         int64_t x[4];
-        if (!solve_four_squares(target, x)) return 0;
+        if (!solve_four_squares(target, x)) {
+            ZITAKA_LOG("EIGD Fail: 4-square decomp failed for target=%.1e", (double)target);
+            return 0;
+        }
 
+        ZITAKA_LOG("EIGD Base OK: %ld^2 + %ld^2 + %ld^2 + %ld^2 = %.0f", 
+                   x[0], x[1], x[2], x[3], (double)target);
+                   
         int base_row_start = OUTPUT_ROWS - 4;
         for (int i = 0; i < 4; i++) {
             matrix_set(ctx, base_row_start + i, 0, x[i]); 
