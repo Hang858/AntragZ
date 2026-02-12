@@ -32,6 +32,62 @@ static int get_bit_width(int64_t val) {
     }
     return bits;
 }
+static void analyze_bits_64(const char* label, const int64_t *v, int n) {
+    int64_t max_val = 0;
+    int max_bits = 0;
+    
+    for(int i=0; i<n; i++) {
+        int64_t val = v[i] < 0 ? -v[i] : v[i];
+        if (val > max_val) max_val = val;
+        
+        int bits = 0;
+        if (val != 0) {
+            // 简单的位宽计算
+            uint64_t uval = (uint64_t)val;
+            while (uval > 0) { bits++; uval >>= 1; }
+        }
+        if (bits > max_bits) max_bits = bits;
+    }
+    // 打印结果：名称，最大值，位宽，是否超过32位/64位
+    ZITAKA_LOG("[ANALYSIS] %-10s: MaxAbs=%.1e (approx 2^%d), Bits=%d %s", 
+               label, (double)max_val, max_bits, max_bits, 
+               (max_bits > 63) ? "[OVERFLOW RISK]" : "");
+}
+
+// 统计 int128 数组的最大绝对值和最大位宽
+static void analyze_bits_128(const char* label, const int128_t *v, int n) {
+    int128_t max_val = 0;
+    int max_bits = 0;
+    
+    for(int i=0; i<n; i++) {
+        int128_t val = v[i] < 0 ? -v[i] : v[i];
+        if (val > max_val) max_val = val;
+        
+        int bits = 0;
+        if (val != 0) {
+            unsigned __int128 uval = (unsigned __int128)val;
+            // 128位位宽计算
+            while (uval > 0) { bits++; uval >>= 1; }
+        }
+        if (bits > max_bits) max_bits = bits;
+    }
+    
+    // 将 int128 转为 double 用于显示（近似值）
+    double approx_val = 0;
+    int128_t temp = max_val;
+    double scale = 1.0;
+    while(temp > 0) {
+        approx_val += (double)(temp % 10) * scale;
+        temp /= 10;
+        scale *= 10.0;
+    }
+
+    char status[32] = "SAFE(<=64)";
+    if (max_bits > 64) sprintf(status, "MUST_USE_128 (Diff: +%d)", max_bits - 64);
+
+    ZITAKA_LOG("[ANALYSIS] %-10s: MaxAbs~=%.1e, Bits=%d [%s]", 
+               label, approx_val, max_bits, status);
+}
 #endif
 
 int crypto_sign(uint8_t *sig, size_t *sig_len, const uint8_t *m, size_t mlen, const PrivateKey *sk) {
@@ -80,6 +136,12 @@ int crypto_sign(uint8_t *sig, size_t *sig_len, const uint8_t *m, size_t mlen, co
     if (!c_hash) return -1;
     hash_to_point(c_hash, salt, 40, m, mlen);
     BENCH_STOP(hash);
+#ifdef ZITAKA_DEBUG
+    int64_t *tmp_c = malloc(n*sizeof(int64_t));
+    for(int i=0; i<n; i++) tmp_c[i] = c_hash[i];
+    analyze_bits_64("c_hash", tmp_c, n);
+    free(tmp_c);
+#endif
 
     ZITAKA_LOG("Hash point generated. c_hash[0]: %d", c_hash[0]);
     BENCH_START(linear);
@@ -89,6 +151,9 @@ int crypto_sign(uint8_t *sig, size_t *sig_len, const uint8_t *m, size_t mlen, co
     // 计算 H-p2
     int64_t *v2 = p2; 
     for (int i = 0; i < n; i++) v2[i] = (int64_t)c_hash[i] - p2[i]; // v2 = H - p2
+#ifdef ZITAKA_DEBUG
+    analyze_bits_64("v2_vector", v2, n);
+#endif
     // v1, v2 构成了 c-p
 
     // 计算 f * v2 组成B_hat ^(-1) * (c - p)
@@ -109,6 +174,9 @@ int crypto_sign(uint8_t *sig, size_t *sig_len, const uint8_t *m, size_t mlen, co
     int64_t p_val = 1LL << 28;
     int128_t *c2_in = malloc(n * sizeof(int128_t));
     for (int i = 0; i < n; i++) c2_in[i] = (int128_t)T[i] * p_val;
+#ifdef ZITAKA_DEBUG
+    analyze_bits_128("c2_in", c2_in, n);
+#endif
 
     // c1_in = u_hat (f * v2 - g * v1) + G * v1 - F * v2 = u_hat * T + (G * v1) - (F * v2)
     int128_t *c1_in = calloc(n, sizeof(int128_t));
@@ -127,6 +195,9 @@ int crypto_sign(uint8_t *sig, size_t *sig_len, const uint8_t *m, size_t mlen, co
 
     free(T);
     free(p1); free(p2); 
+#ifdef ZITAKA_DEBUG
+    analyze_bits_128("c1_in", c1_in, n);
+#endif
 
     ZITAKA_LOG("Starting OnlineSamp...");
     BENCH_START(sample_on);
@@ -139,6 +210,8 @@ int crypto_sign(uint8_t *sig, size_t *sig_len, const uint8_t *m, size_t mlen, co
     BENCH_STOP(sample_on);
 #ifdef ZITAKA_DEBUG
     ZITAKA_LOG("Sampled z vectors. z1[0]: %ld, z2[0]: %ld", z1[0], z2[0]);
+    analyze_bits_64("z1_sampled", z1, n);
+    analyze_bits_64("z2_sampled", z2, n);
 #endif
 
     int16_t *s1 = malloc(n * sizeof(int16_t));
@@ -167,6 +240,7 @@ int crypto_sign(uint8_t *sig, size_t *sig_len, const uint8_t *m, size_t mlen, co
         int64_t val_s2 = (int64_t)c_hash[i] - tmp_acc[i];
         norm_sq += (int64_t)s1[i] * s1[i] + val_s2 * val_s2;
     }
+
     free(tmp_acc); free(z1); free(z2); free(c_hash);
 
     if (norm_sq > 34715664LL) {
@@ -183,14 +257,12 @@ int crypto_sign(uint8_t *sig, size_t *sig_len, const uint8_t *m, size_t mlen, co
     BENCH_STOP(compress);
 
     BENCH_STOP(total);
-    printf("=== Sign Performance (Cycles) ===\n");
     BENCH_PRINT(sample_off, "Offline Sampling");
     BENCH_PRINT(hash,       "Hashing");
     BENCH_PRINT(linear,     "Linear Transform");
     BENCH_PRINT(sample_on,  "Online Sampling");
     BENCH_PRINT(compress,   "Compression");
     BENCH_PRINT(total,      "Total Sign");
-    printf("=================================\n");
     if (comp_len == 0) {
         ZITAKA_LOG("Compression algorithm failed (buffer overflow?)");
         return 0; 

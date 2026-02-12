@@ -43,6 +43,17 @@ static int128_t get_real_max_abs_128(const int128_t *v, int n) {
     }
     return max;
 }
+static int get_bit_width_128(int128_t val) {
+    if (val == 0) return 0;
+    if (val < 0) val = -val;
+    int bits = 0;
+    unsigned __int128 uval = (unsigned __int128)val;
+    while (uval > 0) {
+        bits++;
+        uval >>= 1;
+    }
+    return bits;
+}
 
 #endif
 

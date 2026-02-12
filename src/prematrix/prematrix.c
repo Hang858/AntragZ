@@ -20,6 +20,7 @@ static int64_t get_max_abs_128(const int128_t *v, int n) {
     }
     return max;
 }
+
 #endif
 
 void run_cholesky(poly *a11, poly *a21, poly *a22,
@@ -56,16 +57,16 @@ int Run_PreMatrix(
 
     FFT(tp1, ANTRAG_LOGD); FFT(tp2, ANTRAG_LOGD);
     FFT(tp3, ANTRAG_LOGD); FFT(tp4, ANTRAG_LOGD);
-
+    // 计算 u 的分子
     poly *num = malloc(sizeof(poly));
     poly_add_muladj_fft(num, tp3, tp4, tp1, tp2, ANTRAG_LOGD); 
-
+    // 计算 u 的分母
     poly *den = malloc(sizeof(poly));
     poly_mulselfadj_fft(tp1, ANTRAG_LOGD); 
     poly_mulselfadj_fft(tp2, ANTRAG_LOGD); 
     
     for(int i=0; i<n; i++) den->coeffs[i] = tp1->coeffs[i] + tp2->coeffs[i];
-
+    // 复数除法，算u
     for(int i=0; i < n/2; i++) {
         double nr = num->coeffs[i];
         double ni = num->coeffs[i + n/2];
@@ -102,10 +103,11 @@ int Run_PreMatrix(
     
     for(int i=0; i<n; i++) { f_int[i] = f[i]; g_int[i] = g[i]; }
 
+    //计算 p*F - u_hat_num * f
     memset(tmp128, 0, n * sizeof(int128_t));
     poly_mul_acc_128(tmp128, out->u_hat_num, f_int, n);
     for(int i=0; i<n; i++) R1[i] = (int64_t)F[i] * p - (int64_t)tmp128[i];
-    
+    //计算 G*p - u_hat * g
     memset(tmp128, 0, n * sizeof(int128_t));
     poly_mul_acc_128(tmp128, out->u_hat_num, g_int, n);
     for(int i=0; i<n; i++) R2[i] = (int64_t)G[i] * p - (int64_t)tmp128[i];
@@ -115,16 +117,19 @@ int Run_PreMatrix(
     int128_t *S22 = calloc(n, sizeof(int128_t));
     int128_t p2 = (int128_t)p * p;
     // 计算 Sigma = p^2 * B * B^T
+    // 计算 p^2 * f * f^*
     memset(tmp128, 0, n * sizeof(int128_t));
     poly_mul_adj_acc_128(tmp128, f_int, f_int, n);
     for(int i=0; i<n; i++) S11[i] += tmp128[i] * p2;
+    // 累加 R1 * R1^*
     poly_mul_adj_acc_128(S11, R1, R1, n);
-    
+    // 计算 p^2 * g * g^*
     memset(tmp128, 0, n * sizeof(int128_t));
     poly_mul_adj_acc_128(tmp128, g_int, g_int, n);
     for(int i=0; i<n; i++) S22[i] += tmp128[i] * p2;
+    // 累加 R2 * R2^*
     poly_mul_adj_acc_128(S22, R2, R2, n);
-    
+    // 同上，计算矩阵 sigma 的各个元素
     memset(tmp128, 0, n * sizeof(int128_t));
     poly_mul_adj_acc_128(tmp128, f_int, g_int, n);
     for(int i=0; i<n; i++) S12[i] += tmp128[i] * p2;

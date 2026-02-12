@@ -6,6 +6,7 @@
 #include "hash.h"
 #include <stdlib.h>
 #include "encode.h"
+#include "poly_ntt.h"
 #include "poly.h"
 #include "bench.h"
 static inline int16_t center_mod(int32_t a) {
@@ -18,6 +19,11 @@ static inline int16_t center_mod(int32_t a) {
 
 int crypto_verify(const uint8_t *sig, size_t sig_len, const uint8_t *m, size_t mlen, const PublicKey *pk) {
     int n = ANTRAG_D;
+    static int ntt_hardware_initialized = 0;
+    if (!ntt_hardware_initialized) {
+        poly_ntt_512_init();
+        ntt_hardware_initialized = 1;
+    }
     BENCH_INIT(total);
     BENCH_INIT(hash);
     BENCH_INIT(decompress);
@@ -38,8 +44,13 @@ int crypto_verify(const uint8_t *sig, size_t sig_len, const uint8_t *m, size_t m
     BENCH_STOP(decompress);
     if (bytes_read == 0) return 0;
     BENCH_START(poly_mul);
-    poly_mul_mod(tmp_s2, s1, pk->h);
-    // poly_mul_mod_opt(tmp_s2, s1, pk->h);
+    // poly_mul_mod(tmp_s2, s1, pk->h);
+    if (poly_ntt_512_mul(tmp_s2, s1, pk->h) != 0) {
+        // 如果硬件调用失败，可以选择回退到软实现或报错
+        // 这里简单打印错误并返回
+        printf("Error: NTT Hardware failed!\n");
+        return 0;
+    }
     BENCH_STOP(poly_mul);
     int64_t norm_sq = 0;
     int64_t beta_sq = 34715664LL;
@@ -51,12 +62,10 @@ int crypto_verify(const uint8_t *sig, size_t sig_len, const uint8_t *m, size_t m
         norm_sq += (int64_t)s2_i * s2_i;
     }
     BENCH_STOP(total);
-    printf("=== Verify Performance (Cycles) ===\n");
     BENCH_PRINT(hash,       "Hashing");
     BENCH_PRINT(decompress, "Decompression");
     BENCH_PRINT(poly_mul,   "Poly Mul (Naive)");
     BENCH_PRINT(total,      "Total Verify");
-    printf("===================================\n");
     if (norm_sq <= beta_sq) {
         ZITAKA_LOG("VERIFY OK. Norm: %ld <= Limit: %ld", norm_sq, beta_sq);
         return 1;
