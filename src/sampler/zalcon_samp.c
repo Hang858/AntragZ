@@ -21,6 +21,19 @@ static const int64_t LW_WEIGHTS[LW_NUM_SAMPLES] = {
     6495151520LL, 6495143616LL, 6473785890LL, 6473778012LL
 };
 
+static inline void FastDivMod12289(uint64_t x, uint64_t *quo, uint64_t *rem) {
+    const uint64_t MAGIC = 11430799819ULL;
+    const int SHIFT = 47;
+
+#if defined(__SIZEOF_INT128__)
+    unsigned __int128 prod = (unsigned __int128)x * MAGIC;
+    *quo = (uint64_t)(prod >> SHIFT);
+#else
+    *quo = x / 12289; 
+#endif
+    *rem = x - (*quo * 12289);
+}
+
 #define SW_LAYERS 3
 #define SW_NUM_SAMPLES 8
 
@@ -31,7 +44,7 @@ int32_t BaseSample(uint8_t center_idx) {
     if (center_idx > (CDT_BETA / 2)) {
         center_idx = CDT_BETA - center_idx; 
         flip_mask = 1; 
-    }
+    } //利用对称性查表
 
     const uint64_t* cdf_row = CDT_TABLE[center_idx];
     int32_t z_index = 0;
@@ -101,4 +114,48 @@ int64_t SampleLW(void) {
         z += (int64_t)s * LW_WEIGHTS[i];
     } 
     return z;
+}
+
+int32_t SampleArbitraryCenter64(int64_t num, uint64_t den_ignored) {
+
+    int64_t sign = 1;
+    uint64_t abs_num;
+
+    if (num < 0) {
+        sign = -1;
+        abs_num = (uint64_t)(-(num + 1)) + 1;
+    } else {
+        abs_num = (uint64_t)num;
+    }
+
+    uint64_t q1, r1;
+    FastDivMod12289(abs_num, &q1, &r1);
+
+    uint64_t integer_part = q1 >> 28;
+    uint64_t frac_part_base = (q1 & 0xFFFFFFF) << 2;
+
+    uint64_t r1_scaled = r1 * 4;
+    uint64_t tail_val, tail_rem;
+
+    FastDivMod12289(r1_scaled, &tail_val, &tail_rem);
+    uint64_t c_frac_combined = frac_part_base + tail_val;
+    uint64_t r_bern;
+    do {
+        r_bern = get_secure_random_u64() & 0x3FFF; // 0~16383
+    } while (r_bern >= 12289);
+
+    if (r_bern < tail_rem) {
+        c_frac_combined += 1;
+    }
+
+    int64_t final_int = (int64_t)integer_part;
+    final_int += (c_frac_combined >> 30); // PRECISION_BITS
+    
+    int64_t final_frac = c_frac_combined & ((1ULL << 30) - 1);
+
+    for (int i = 0; i < CDT_LAYERS; i++) {
+        final_frac = SampleC1(final_frac);
+    }
+
+    return sign * (int32_t)(final_int + final_frac);
 }

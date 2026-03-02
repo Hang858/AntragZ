@@ -54,7 +54,7 @@ set(SOURCES
     ${PQC_SOFT_SOURCES}
 )
 
-list(APPEND SOURCES test/test_sign_impl.c)
+list(APPEND SOURCES test/test_speed.c)
 
 add_executable(zitaka_test ${SOURCES})
 

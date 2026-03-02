@@ -2,6 +2,7 @@
 #include <string.h>
 #include <math.h>
 #include "poly.h"
+#include <stdio.h>
 
 
 int16_t mod_inverse(int16_t a, int16_t m) {
@@ -260,5 +261,52 @@ void int128_to_poly_double(poly *out, const int128_t *in, int n) {
 void poly_double_to_int64(int64_t *out, const poly *in, int n) {
     for (int i = 0; i < n; i++) {
         out[i] = (int64_t)round(in->coeffs[i]);
+    }
+}
+
+
+void poly_mul_int8_int16_to_32_acc(int32_t *res, const int8_t *a, const int16_t *b, int n) {
+    for (int k = 0; k < n; k++) {
+        for (int i = 0; i < n; i++) {
+            int idx = k - i;
+            int sign = 1;
+            if (idx < 0) {
+                idx += n;
+                sign = -1; // X^N = -1
+            }
+            res[k] += sign * (int32_t)a[i] * b[idx];
+        }
+    }
+#ifdef ZITAKA_MAGNITUDE_CHECK
+    int32_t max_abs = 0;
+    for (int i = 0; i < n; i++) {
+        int32_t val = (res[i] < 0) ? -res[i] : res[i];
+        if (val > max_abs) max_abs = val;
+    }
+
+    // 计算当前值占用了多少个有效位 (Bit Width)
+    int bits = 0;
+    uint32_t temp = (uint32_t)max_abs;
+    while (temp > 0) { bits++; temp >>= 1; }
+
+    // 打印当前的计算深度
+    // 这里建议打出 a[0] 或 b[0] 的某种特征，方便知道是哪次调用
+    printf("[CHECK] Conv End | MaxAbs: %10d | Bits: %2d | Result: %s\n", 
+            max_abs, bits, (max_abs < 134217728) ? "SAFE (27-bit NTT OK)" : "CAUTION");
+#endif
+}
+
+
+void poly_mul_int64_int32_to_64_acc(int64_t *res, const int64_t *a, const int32_t *b, int n) {
+    for (int k = 0; k < n; k++) {
+        for (int i = 0; i < n; i++) {
+            int idx = k - i;
+            int sign = 1;
+            if (idx < 0) {
+                idx += n;
+                sign = -1;
+            }
+            res[k] += sign * a[i] * (int64_t)b[idx];
+        }
     }
 }

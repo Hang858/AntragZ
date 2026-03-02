@@ -33,5 +33,7 @@ void poly_mul_int8_int64_to_128_acc(int128_t *res, const int8_t *a, const int64_
 void poly_mul_int8_int64_acc(int64_t *res, const int8_t *a, const int64_t *b, int n);
 void int128_to_poly_double(poly *out, const int128_t *in, int n);
 void poly_double_to_int64(int64_t *out, const poly *in, int n);
+void poly_mul_int8_int16_to_32_acc(int32_t *res, const int8_t *a, const int16_t *b, int n);
+void poly_mul_int64_int32_to_64_acc(int64_t *res, const int64_t *a, const int32_t *b, int n);
 
 #endif

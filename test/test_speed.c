@@ -13,7 +13,7 @@
 #include "sample.h"
 #include "rng.h"
 
-#define ITERATIONS 1000  // 测试次数
+#define ITERATIONS 10  // 测试次数
 
 // ==========================================
 // CPU Cycle 计数器
